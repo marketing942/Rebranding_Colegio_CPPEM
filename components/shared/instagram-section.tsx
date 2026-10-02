@@ -54,19 +54,23 @@ export function InstagramSection() {
             </a>
           </div>
 
-          {/* celular com o perfil */}
+          {/* iPhone 13 Pro Max 3D com o perfil atualizado */}
           <a
             href={siteConfig.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Abrir o Instagram ${INSTAGRAM_HANDLE}`}
-            className="group relative mx-auto block w-56 sm:w-64"
+            className="group relative mx-auto block w-[min(76vw,19rem)] sm:w-80 md:w-96"
           >
-            <span className="absolute inset-[-12%] rounded-full bg-[radial-gradient(circle,rgb(242_176_30/0.35),rgb(47_127_240/0.3)_50%,transparent_72%)] blur-2xl" aria-hidden="true" />
-            <span className="pillar-float-slow relative block rounded-[2.6rem] bg-[#111214] p-2 shadow-[0_30px_70px_-20px_rgb(0_0_0/0.8)] ring-1 ring-white/20">
-              <span className="pointer-events-none absolute top-4 left-1/2 z-10 h-1.5 w-16 -translate-x-1/2 rounded-full bg-zinc-800" aria-hidden="true" />
-              <Image src="/instagram/perfil.webp" alt="Perfil do Colégio CPPEM no Instagram" width={622} height={1280} sizes="256px" className="w-full rounded-[2.1rem]" />
-            </span>
+            <span className="absolute inset-[-10%] rounded-full bg-[radial-gradient(circle,rgb(242_176_30/0.28),rgb(47_127_240/0.28)_50%,transparent_72%)] blur-2xl" aria-hidden="true" />
+            <Image
+              src="/instagram/instagram-iphone-13-pro-max-3d.png"
+              alt="iPhone 13 Pro Max com o perfil atualizado do Colégio CPPEM no Instagram"
+              width={1024}
+              height={1536}
+              sizes="(min-width: 768px) 384px, (min-width: 640px) 320px, 76vw"
+              className="pillar-float-slow relative h-auto w-full drop-shadow-[0_30px_40px_rgb(0_0_0/0.45)]"
+            />
           </a>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { PlatformsSection } from "@/components/home/platforms-section";
 import { ScholarshipsSection } from "@/components/home/scholarships-section";
 import { SegmentsSection } from "@/components/home/segments-section";
 import { VideoSection } from "@/components/home/video-section";
+import { LeadershipSection } from "@/components/shared/leadership-section";
 import { getBanners } from "@/lib/notion/banners";
 
 // acompanha o cache dos banners: Início/Fim do Notion entram em até 5 min
@@ -27,6 +28,7 @@ export default async function HomePage() {
       <PillarsSection />
       <PlatformsSection />
       <VideoSection showAboutLink />
+      <LeadershipSection />
       <ScholarshipsSection />
     </>
   );

@@ -5,6 +5,7 @@ import { ArrowRight, GraduationCap, MapPin, ShieldCheck } from "lucide-react";
 import { LightOrbs } from "@/components/home/light-orbs";
 import { VideoSection } from "@/components/home/video-section";
 import { InstagramSection } from "@/components/shared/instagram-section";
+import { LeadershipSection } from "@/components/shared/leadership-section";
 import { PhotoMarquee } from "@/components/shared/photo-marquee";
 import { schoolLifePhotos } from "@/lib/media";
 import { pillars } from "@/lib/pillars";
@@ -135,6 +136,8 @@ export default function AboutPage() {
           <PhotoMarquee photos={schoolLifePhotos.slice(midpoint)} seconds={60} reverse />
         </div>
       </section>
+
+      <LeadershipSection />
 
       <InstagramSection />
     </>

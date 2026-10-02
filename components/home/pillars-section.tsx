@@ -45,7 +45,8 @@ const tones: Record<PillarTone, { circle: string; glow: string; tagline: string;
   },
 };
 
-function PillarCircle({ pillar, index }: { pillar: Pillar; index: number }) {
+/** `inner` é o lado do círculo que fica voltado para o texto do pilar. */
+function PillarCircle({ pillar, index, inner }: { pillar: Pillar; index: number; inner: "left" | "right" }) {
   const tone = tones[pillar.tone];
   const Icon = icons[pillar.id] ?? Shield;
 
@@ -80,25 +81,47 @@ function PillarCircle({ pillar, index }: { pillar: Pillar; index: number }) {
         )}
       </div>
 
+      {/*
+        O mascote fica de pé na borda do círculo, do lado do texto: entre o aluno e
+        o título. Ele passa um pouco para fora do círculo, e o quanto passa muda por
+        tela para nunca encostar no texto (desktop) nem sair da tela (celular).
+      */}
       {pillar.mascot && (
-        <Image
-          src={pillar.mascot.src}
-          alt={pillar.mascot.alt}
-          width={520}
-          height={620}
-          className={`absolute bottom-0 left-1/2 h-[112%] w-auto max-w-none -translate-x-1/2 object-contain drop-shadow-[0_18px_24px_rgb(6_22_58/0.35)] ${pillar.mascot.className ?? ""}`}
-        />
+        <span
+          className={`pillar-float-slow absolute bottom-[-3%] z-10 h-[58%] md:h-[60%] lg:h-[72%] ${
+            inner === "right" ? "left-[70%] md:left-[62%] lg:left-[76%]" : "right-[70%] md:right-[62%] lg:right-[76%]"
+          }`}
+        >
+          <Image
+            src={pillar.mascot.src}
+            alt={pillar.mascot.alt}
+            width={pillar.mascot.width}
+            height={720}
+            sizes="(min-width: 1024px) 200px, 140px"
+            className={`h-full w-auto max-w-none drop-shadow-[0_14px_18px_rgb(6_22_58/0.35)] ${pillar.mascot.flip ? "-scale-x-100" : ""}`}
+          />
+        </span>
       )}
 
-      {/* objetos flutuando em volta, como os enfeites da mesa */}
-      <span className="pillar-float absolute -top-[2%] right-[2%] grid size-[24%] place-items-center rounded-[28%] bg-white text-navy shadow-[0_16px_30px_-12px_rgb(6_22_58/0.5)] ring-1 ring-blue-100" aria-hidden="true">
+      {/* objetos flutuando em volta, como os enfeites da mesa: ícone do lado do texto, número do lado de fora */}
+      <span
+        className={`pillar-float absolute top-[-2%] grid size-[24%] place-items-center rounded-[28%] bg-white text-navy shadow-[0_16px_30px_-12px_rgb(6_22_58/0.5)] ring-1 ring-blue-100 ${inner === "right" ? "right-[2%]" : "left-[2%]"}`}
+        aria-hidden="true"
+      >
         <Icon className="size-1/2" strokeWidth={2.2} />
       </span>
-      <span className="pillar-float-slow btn-gold absolute bottom-[6%] -left-[3%] grid size-[21%] place-items-center rounded-full font-display text-[clamp(1.1rem,2.6vw,1.6rem)] font-black" aria-hidden="true">
+      <span
+        className={`pillar-float-slow btn-gold absolute bottom-[6%] grid size-[21%] place-items-center rounded-full font-display text-[clamp(1.1rem,2.6vw,1.6rem)] font-black ${inner === "right" ? "left-[-3%]" : "right-[-3%]"}`}
+        aria-hidden="true"
+      >
         {String(index + 1).padStart(2, "0")}
       </span>
-      <span className="pillar-float-slow absolute top-[18%] -left-[5%] size-[7%] rounded-full bg-blue-400 shadow-[0_0_18px_rgb(90_162_255/0.9)]" aria-hidden="true" />
-      <span className="pillar-float absolute right-[-4%] bottom-[22%] size-[5%] rounded-full bg-gold shadow-[0_0_16px_rgb(242_176_30/0.9)]" aria-hidden="true" />
+      <span
+        className={`pillar-float-slow absolute top-[18%] size-[7%] rounded-full bg-blue-400 shadow-[0_0_18px_rgb(90_162_255/0.9)] ${inner === "right" ? "left-[-5%]" : "right-[-5%]"}`}
+        aria-hidden="true"
+      />
+      {/* o pontinho dourado ocupava o lugar onde agora fica o mascote */}
+      {!pillar.mascot && <span className="pillar-float absolute right-[-4%] bottom-[22%] size-[5%] rounded-full bg-gold shadow-[0_0_16px_rgb(242_176_30/0.9)]" aria-hidden="true" />}
     </div>
   );
 }
@@ -122,7 +145,7 @@ export function PillarsSection() {
             return (
               <li key={pillar.id} className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
                 <div className={flipped ? "md:order-2" : undefined}>
-                  <PillarCircle pillar={pillar} index={index} />
+                  <PillarCircle pillar={pillar} index={index} inner={flipped ? "left" : "right"} />
                 </div>
                 <div className={`text-center md:text-left ${flipped ? "md:order-1" : ""}`}>
                   <p className={`font-display text-sm font-black tracking-widest uppercase ${tone.number}`}>

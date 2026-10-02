@@ -11,7 +11,7 @@ export const ATHLETES_SITE_URL = "https://atletas.cppem.com.br";
 export const ATHLETES_URL = `${ATHLETES_SITE_URL}/#inscricao`;
 export const GUIDE_PDF = "/guias/guia-matriculas-2027.pdf";
 
-/** Uma faixa de preço dentro do segmento (o Fund. 2 tem duas). */
+/** Uma faixa de preço dentro do segmento. Hoje cada segmento tem uma só; a lista permite mais de uma. */
 export type TuitionPlan = {
   id: string;
   label: string;
@@ -45,19 +45,16 @@ export const enrollmentInfo: Record<string, EnrollmentInfo> = {
   "fundamental-2": {
     shortName: "Fundamental 2",
     mascot: { src: "/mascotes/mascote-lobomax.jpg", name: "Lobo Max" },
-    series: ["6º ano", "7º ano", "8º ano", "9º ano"],
-    // no guia 2027 o 9º ano segue a tabela do Ensino Médio
-    plans: [
-      { id: "f2", label: "6º ao 8º ano", monthly: 1497, books: BOOKS.fundamental2 },
-      { id: "f2-9", label: "9º ano", monthly: 1597, books: BOOKS.medio },
-    ],
+    series: ["6º ano", "7º ano", "8º ano"],
+    plans: [{ id: "f2", label: "6º ao 8º ano", monthly: 1497, books: BOOKS.fundamental2 }],
     highlights: ["Autonomia e disciplina", "Base forte para o Médio", "Plataforma IRIUM com pré-aulas"],
   },
   "ensino-medio": {
     shortName: "Ensino Médio",
     mascot: { src: "/mascotes/mascote-carcara.jpg", name: "Carcará" },
-    series: ["1ª série", "2ª série", "3ª série"],
-    plans: [{ id: "em", label: "1ª à 3ª série", monthly: 1597, books: BOOKS.medio }],
+    // no CPPEM o 9º ano fica junto do Ensino Médio: mesma tabela de valores e mesmo material
+    series: ["9º ano", "1ª série", "2ª série", "3ª série"],
+    plans: [{ id: "em", label: "9º ano à 3ª série", monthly: 1597, books: BOOKS.medio }],
     highlights: ["ENEM e vestibulares", "Preparação para concursos", "Educação financeira"],
   },
 };

@@ -16,7 +16,7 @@ export const segments: Segment[] = [
   {
     id: "fundamental-2",
     title: "Ensino Fundamental 2",
-    grades: "6º ao 9º ano",
+    grades: "6º ao 8º ano",
     description: "Autonomia, disciplina e base forte para os desafios que vêm pela frente.",
     image: "/segmentos/fundamental-2.webp",
     href: "/matriculas/fundamental-2",
@@ -24,7 +24,7 @@ export const segments: Segment[] = [
   {
     id: "ensino-medio",
     title: "Ensino Médio",
-    grades: "1ª à 3ª série",
+    grades: "9º ano à 3ª série",
     description: "Preparação para o ENEM, vestibulares e concursos públicos.",
     image: "/segmentos/ensino-medio.webp",
     href: "/matriculas/ensino-medio",
