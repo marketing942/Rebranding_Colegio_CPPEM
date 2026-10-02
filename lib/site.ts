@@ -1,0 +1,65 @@
+/**
+ * Configuração central do site — fonte única para URL, contato e identidade.
+ * Dados herdados do site atual (SiteColegioCPPEM).
+ */
+export const siteConfig = {
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://colegio.cppem.com.br",
+  name: "Colégio CPPEM",
+  legalName: "CPPEM Colégio e Cursos LTDA",
+  cnpj: "57.347.872/0001-48",
+  accreditation: "Portaria de Credenciamento Nº 9097 — Secretaria Estadual de Pernambuco",
+  shortDescription:
+    "Escola cristã, militarizada e preparatória em Caruaru-PE, do 1º ano do Ensino Fundamental ao 3º ano do Ensino Médio.",
+  longDescription:
+    "O Colégio CPPEM é uma escola cristã, militarizada e preparatória no centro de Caruaru-PE. A proposta une formação escolar, disciplina, valores cristãos, educação financeira, empreendedorismo e preparação para concursos públicos.",
+  email: "colegiocppem@gmail.com",
+  telephones: [
+    { display: "+55 (81) 99707-6388", e164: "+5581997076388" },
+    { display: "+55 (81) 99408-6174", e164: "+5581994086174" },
+  ],
+  admissionsYear: "2027",
+  address: {
+    street: "Praça Presidente Getúlio Vargas, 119",
+    neighborhood: "Nossa Senhora das Dores",
+    locality: "Caruaru",
+    region: "PE",
+    postalCode: "55004-140",
+  },
+  social: {
+    instagram: "https://www.instagram.com/colegiocppem/",
+  },
+} as const;
+
+/** Site próprio da nova sede (Zona Norte). */
+export const NEW_CAMPUS_URL = "https://novasede.cppem.com.br";
+
+/** Links simples do menu. Segmentos de ensino e Eventos são dropdowns montados no header. */
+export const navItems = [
+  { label: "Sobre", href: "/sobre" },
+  { label: "Grade curricular", href: "/grade-curricular" },
+] as const;
+
+/**
+ * Clique direto em "Segmentos de ensino": vai para o Fundamental 2, a etapa que
+ * mais recebe alunos novos. Quem quer outra etapa escolhe no dropdown.
+ */
+export const SEGMENTS_DEFAULT_HREF = "/matriculas/fundamental-2";
+
+/** Para onde o botão "Matricule-se" leva: a escolha do segmento, que abre a inscrição. */
+export const ENROLL_HREF = "/#segmentos";
+
+/** Navegação do rodapé. */
+export const footerNavItems = [...navItems, { label: "Segmentos de ensino", href: ENROLL_HREF }] as const;
+
+const { address } = siteConfig;
+export const enderecoCompleto = `${address.street}, ${address.neighborhood}, ${address.locality}-${address.region}, ${address.postalCode}`;
+export const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Colégio CPPEM, ${enderecoCompleto}`)}`;
+
+const MENSAGEM_WHATSAPP = "Olá, gostaria de falar sobre o Colégio Cppem";
+
+export function whatsappUrl(e164: string, mensagem?: string): string {
+  const base = `https://wa.me/${e164.replace(/\D/g, "")}`;
+  return mensagem ? `${base}?text=${encodeURIComponent(mensagem)}` : base;
+}
+
+export const whatsappPrincipal = whatsappUrl(siteConfig.telephones[0].e164, MENSAGEM_WHATSAPP);

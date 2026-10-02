@@ -1,26 +1,342 @@
 @import "tailwindcss";
 
+/*
+ * Identidade Colégio CPPEM (rebranding 2026)
+ * Ritmo escuro ↔ claro: seções navy iluminadas (hero, rodapé) intercaladas com
+ * seções brancas. O azul vivo aparece em gradientes e brilhos, nunca chapado.
+ * Dourado do brasão é o destaque e a cor de ação.
+ */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #16264a;
+  --muted: #56688a;
+
+  --blue-50: #eef5ff;
+  --blue-100: #dcebff;
+  --blue-200: #b7d6ff;
+  --blue-400: #5aa2ff;
+  --blue-500: #2f7ff0;
+  --blue-600: #1d64d6;
+  --blue-700: #1650b0;
+  --navy: #10307a;
+  --navy-900: #0a2356;
+  --navy-950: #06163a;
+
+  --gold: #f2b01e;
+  --gold-300: #ffd36b;
+  --gold-600: #d99a0b;
+  /* dourado escuro: o único que dá leitura como texto sobre branco */
+  --gold-700: #a06c00;
+  --gold-50: #fff6dd;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-blue-50: var(--blue-50);
+  --color-blue-100: var(--blue-100);
+  --color-blue-200: var(--blue-200);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+  --color-navy: var(--navy);
+  --color-navy-900: var(--navy-900);
+  --color-navy-950: var(--navy-950);
+  --color-gold: var(--gold);
+  --color-gold-300: var(--gold-300);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+  --color-gold-50: var(--gold-50);
+  --font-sans: var(--font-nunito-sans);
+  --font-display: var(--font-nunito);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Superfícies escuras iluminadas ---------- */
+
+/* navy com luz vinda de cima: base de hero, navbar e rodapé */
+.surface-night {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(90% 70% at 50% -10%, rgb(47 127 240 / 0.45), transparent 65%),
+    radial-gradient(50% 60% at 100% 100%, rgb(242 176 30 / 0.12), transparent 70%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950));
+  color: #fff;
+}
+
+/* grade sutil que dá textura sem pesar */
+.surface-night::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(70% 80% at 50% 30%, #000, transparent 85%);
+  pointer-events: none;
+}
+
+/* orbes de luz que passeiam atrás do conteúdo */
+.light-orbs {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.light-orbs i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  will-change: transform;
+}
+.light-orbs i:nth-child(1) {
+  top: -10%;
+  left: -8%;
+  width: 42%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(90 162 255 / 0.55), transparent 70%);
+  animation: orb-a 18s ease-in-out infinite;
+}
+.light-orbs i:nth-child(2) {
+  right: -6%;
+  bottom: -20%;
+  width: 38%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(242 176 30 / 0.35), transparent 70%);
+  animation: orb-b 22s ease-in-out infinite;
+}
+.light-orbs i:nth-child(3) {
+  top: 20%;
+  left: 45%;
+  width: 28%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(47 127 240 / 0.45), transparent 70%);
+  animation: orb-c 26s ease-in-out infinite;
+}
+@keyframes orb-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(35%, 25%) scale(1.15); }
+}
+@keyframes orb-b {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-40%, -30%) scale(0.9); }
+}
+@keyframes orb-c {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-60%, 30%); }
+  66% { transform: translate(40%, -25%); }
+}
+
+/* linha dourada com brilho, usada como divisor */
+.gold-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold-300) 50%, var(--gold) 80%, transparent);
+  box-shadow: 0 0 14px rgb(242 176 30 / 0.7);
+}
+
+/* ---------- Superfície clara ---------- */
+
+/* branco com um halo azul suave, para as seções claras não ficarem chapadas */
+.surface-day {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 50% at 15% 0%, rgb(47 127 240 / 0.1), transparent 70%),
+    radial-gradient(50% 45% at 90% 100%, rgb(242 176 30 / 0.09), transparent 70%),
+    #fff;
+}
+
+/* ---------- Detalhes ---------- */
+
+/* reflexo que atravessa o elemento no hover */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 0.35) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+  pointer-events: none;
+}
+.group:hover .shine::after,
+.shine:hover::after {
+  transform: translateX(120%);
+}
+
+/* botão dourado com luz */
+.btn-gold {
+  background: linear-gradient(180deg, var(--gold-300), var(--gold) 55%, var(--gold-600));
+  color: var(--navy-950);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.25) inset,
+    0 8px 24px -6px rgb(242 176 30 / 0.65);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.35) inset,
+    0 12px 32px -6px rgb(242 176 30 / 0.85);
+}
+
+/* textura de pontinhos nos placeholders de foto */
+.dot-texture {
+  background-image: radial-gradient(rgb(255 255 255 / 0.2) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* ---------- Pilares ---------- */
+
+/* enfeites que flutuam em volta do círculo de cada pilar */
+.pillar-float {
+  animation: pillar-float 5s ease-in-out infinite;
+}
+.pillar-float-slow {
+  animation: pillar-float 7s ease-in-out -2s infinite;
+}
+.pillar-spin {
+  animation: pillar-spin 60s linear infinite;
+}
+@keyframes pillar-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(4deg); }
+}
+@keyframes pillar-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .light-orbs i,
+  .pillar-float,
+  .pillar-float-slow,
+  .pillar-spin {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Plataformas (mockups de notebook, celular e tablet) ---------- */
+
+.devices-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 34rem;
+  margin-inline: auto;
+  isolation: isolate;
+}
+.devices-halo {
+  position: absolute;
+  z-index: -1;
+  width: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d8ecff 0%, #9ecaff 52%, #64a5f5 100%);
+  box-shadow: 0 32px 70px -50px rgb(19 74 155 / 0.48);
+}
+.devices-halo::after {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border: 1px solid rgb(255 255 255 / 0.42);
+  border-radius: 50%;
+}
+.device-label {
+  position: absolute;
+  z-index: 5;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--blue-100);
+  border-radius: 999px;
+  color: var(--navy);
+  background: #fff;
+  box-shadow: 0 15px 26px -18px rgb(5 15 44 / 0.45);
+  font: 900 0.7rem/1 var(--font-nunito);
+}
+
+/* mancha azul clara atrás do tablet da IRIUM */
+.device-blob {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 32rem;
+  margin-inline: auto;
+  isolation: isolate;
+}
+.device-blob::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #d7ecff 5%, #a7d4ff 55%, #63a7f4 100%);
+}
+.devices-render,
+.tablet-render {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Carrossel infinito de fotos ---------- */
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite;
+}
+.marquee-track[data-reverse="true"] {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+/* sem animação, a faixa vira uma lista que a pessoa rola com o dedo */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
 }
