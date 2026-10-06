@@ -25,8 +25,16 @@ export const siteConfig = {
     region: "PE",
     postalCode: "55004-140",
   },
+  // Rede sem link fica com "" e não aparece no rodapé.
   social: {
     instagram: "https://www.instagram.com/colegiocppem/",
+    youtube: "https://www.youtube.com/@colegiocppem",
+    tiktok: "https://www.tiktok.com/@colegiocppem",
+    // o Threads usa o mesmo usuário do Instagram
+    threads: "https://www.threads.com/@colegiocppem",
+    // TODO: faltam os endereços do colégio nestas duas redes
+    linkedin: "",
+    facebook: "",
   },
 } as const;
 

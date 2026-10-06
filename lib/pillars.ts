@@ -46,7 +46,7 @@ export const pillars: Pillar[] = [
   {
     id: "disciplina",
     name: "Disciplina Militarizada",
-    tagline: "Quem tem rotina vai longe",
+    tagline: "Quem tem Disciplina vai longe",
     text: "Horário certo, tarefa feita e palavra cumprida. Aqui disciplina não é bronca: é o treino que transforma um objetivo em resultado.",
     about: [
       "Com disciplina, o aluno fica mais firme para seguir até o fim dos seus objetivos, sem desistir.",
@@ -60,7 +60,7 @@ export const pillars: Pillar[] = [
   {
     id: "estabilidade",
     name: "Estabilidade",
-    tagline: "Futuro com chão firme",
+    tagline: "Para um Futuro com chão firme",
     text: "Preparação acadêmica e para concursos desde a base. Quanto mais cedo começa o preparo, mais caminhos profissionais seguros se abrem lá na frente.",
     about: [
       "A estabilidade financeira deve ser um dos primeiros objetivos de um jovem. Não é luxo: é segurança para viver com dignidade.",

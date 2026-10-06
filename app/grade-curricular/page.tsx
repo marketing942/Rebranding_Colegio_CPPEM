@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { ComingSoon } from "@/components/layout/coming-soon";
 
-export const metadata: Metadata = { title: "Grade curricular" };
+// página de espera: fica fora do Google até ter conteúdo
+export const metadata: Metadata = { title: "Grade curricular", robots: { index: false, follow: true } };
 
 // TODO: conteúdo da grade curricular ainda não foi definido
 export default function CurriculumPage() {

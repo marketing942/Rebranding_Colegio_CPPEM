@@ -10,7 +10,7 @@ export const segments: Segment[] = [
     title: "Ensino Fundamental 1",
     grades: "1º ao 5º ano",
     description: "Alfabetização sólida, rotina e valores desde os primeiros anos.",
-    image: "/segmentos/fundamental-1.webp",
+    image: "/segmentos/fundamental-1-aluno.webp",
     href: "/matriculas/fundamental-1",
   },
   {

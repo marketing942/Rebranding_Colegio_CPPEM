@@ -85,11 +85,22 @@ export function SegmentsSection() {
   return (
     <section id="segmentos" className="surface-day scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="border-l-4 border-gold pl-4">
-          <p className="font-display text-sm font-extrabold tracking-widest text-blue-600 uppercase">Nossos segmentos</p>
-          <h2 className="mt-1 font-display text-[clamp(1.7rem,3.4vw,2.6rem)] leading-tight font-black text-navy uppercase">
-            Um CPPEM para cada fase do seu filho
-          </h2>
+        <div className="flex items-end justify-between gap-4">
+          <div className="border-l-4 border-gold pl-4">
+            <p className="font-display text-sm font-extrabold tracking-widest text-blue-600 uppercase">Nossos segmentos</p>
+            <h2 className="mt-1 font-display text-[clamp(1.7rem,3.4vw,2.6rem)] leading-tight font-black text-navy uppercase">
+              Um CPPEM para cada fase do seu filho
+            </h2>
+          </div>
+          {/* o leão aponta para o título; os pés dele descem até a linha dos cards */}
+          <Image
+            src="/mascotes/pilar-fe-crista.webp"
+            alt="Mascote leão do Colégio CPPEM apontando para os segmentos"
+            width={481}
+            height={720}
+            sizes="(min-width: 640px) 130px, 84px"
+            className="pillar-float-slow -mb-6 h-28 w-auto shrink-0 drop-shadow-[0_14px_18px_rgb(6_22_58/0.3)] sm:-mb-9 sm:h-44"
+          />
         </div>
 
         <ul className="mt-8 grid gap-6 sm:mt-12 sm:grid-cols-2 sm:gap-7 md:grid-cols-3">

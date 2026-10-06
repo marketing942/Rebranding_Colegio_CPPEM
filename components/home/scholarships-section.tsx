@@ -41,7 +41,7 @@ export function ScholarshipsSection() {
               <span>
                 Não é atleta? A mensalidade também tem bolsas de até {MAX_SCHOLARSHIP}%.{" "}
                 <Link href={ENROLL_HREF} className="font-bold text-gold-300 underline-offset-4 hover:underline">
-                  Veja os valores por segmento
+                  Faça a inscrição e fale com a equipe
                 </Link>
                 .
               </span>

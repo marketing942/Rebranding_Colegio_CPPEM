@@ -1,9 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail, MapPin, Navigation, ShieldCheck } from "lucide-react";
-import { InstagramIcon, WhatsappIcon } from "@/components/layout/brand-icons";
+import { FacebookIcon, InstagramIcon, LinkedinIcon, ThreadsIcon, TiktokIcon, WhatsappIcon, YoutubeIcon } from "@/components/layout/brand-icons";
 import { LightOrbs } from "@/components/home/light-orbs";
 import { footerNavItems, mapsUrl, NEW_CAMPUS_URL, siteConfig, whatsappPrincipal, whatsappUrl } from "@/lib/site";
+
+// só entram as redes que têm link em lib/site.ts
+const socialLinks = [
+  { label: "Instagram", href: siteConfig.social.instagram, icon: InstagramIcon },
+  { label: "YouTube", href: siteConfig.social.youtube, icon: YoutubeIcon },
+  { label: "TikTok", href: siteConfig.social.tiktok, icon: TiktokIcon },
+  { label: "Threads", href: siteConfig.social.threads, icon: ThreadsIcon },
+  { label: "LinkedIn", href: siteConfig.social.linkedin, icon: LinkedinIcon },
+  { label: "Facebook", href: siteConfig.social.facebook, icon: FacebookIcon },
+  { label: "WhatsApp", href: whatsappPrincipal, icon: WhatsappIcon },
+].filter((item) => item.href);
 
 const headingClass = "font-display text-sm font-black tracking-widest text-gold-300 uppercase";
 const linkClass = "inline-flex items-center gap-2.5 text-blue-100/85 transition-colors hover:text-gold-300";
@@ -59,26 +70,22 @@ export function SiteFooter() {
             <Image src="/logo-cppem.png" alt={siteConfig.name} width={128} height={128} className="relative size-32 object-contain drop-shadow-[0_12px_24px_rgb(0_0_0/0.45)]" />
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-blue-100/75">{siteConfig.shortDescription}</p>
-          <div className="mt-5 flex gap-3">
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram do Colégio CPPEM"
-              className="grid size-11 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-gold hover:text-gold-300 hover:shadow-[0_0_18px_rgb(242_176_30/0.45)]"
-            >
-              <InstagramIcon />
-            </a>
-            <a
-              href={whatsappPrincipal}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp do Colégio CPPEM"
-              className="grid size-11 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-gold hover:text-gold-300 hover:shadow-[0_0_18px_rgb(242_176_30/0.45)]"
-            >
-              <WhatsappIcon />
-            </a>
-          </div>
+          <ul className="mt-5 flex max-w-xs flex-wrap gap-2.5" aria-label="Redes sociais">
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${label} do Colégio CPPEM`}
+                  title={label}
+                  className="grid size-11 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition hover:-translate-y-0.5 hover:border-gold hover:text-gold-300 hover:shadow-[0_0_18px_rgb(242_176_30/0.45)]"
+                >
+                  <Icon />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* navegação */}

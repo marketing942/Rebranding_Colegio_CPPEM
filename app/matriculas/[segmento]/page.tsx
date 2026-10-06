@@ -4,39 +4,82 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ArrowRight,
-  BadgePercent,
-  BookOpen,
+  BookOpenCheck,
+  ChevronDown,
   ChevronRight,
+  CircleHelp,
   ClipboardPen,
-  Download,
+  Clock,
+  Columns4,
+  Compass,
+  Cross,
+  Flag,
   Footprints,
+  HandCoins,
+  HeartHandshake,
+  Landmark,
+  Layers,
   MapPin,
   Medal,
-  Shirt,
+  MonitorPlay,
+  Shield,
   Sparkles,
   Star,
-  Wallet,
+  Target,
+  TrendingUp,
+  Users,
   type LucideIcon,
 } from "lucide-react";
 import { LightOrbs } from "@/components/home/light-orbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { WhatsappIcon } from "@/components/layout/brand-icons";
 import { MobileEnrollCta } from "@/components/matriculas/mobile-enroll-cta";
 import { EnrollmentForm } from "@/components/matriculas/enrollment-form";
-import { TuitionSimulator } from "@/components/matriculas/tuition-simulator";
-import {
-  applyScholarship,
-  ATHLETES_URL,
-  athleteTiers,
-  enrollmentInfo,
-  enrollmentSteps,
-  formatCurrency,
-  GUIDE_PDF,
-  MAX_SCHOLARSHIP,
-  SCHOLARSHIP_OPTIONS,
-  uniformGroups,
-} from "@/lib/matriculas";
+import { ATHLETES_URL, athleteTiers, enrollmentFaqs, enrollmentInfo, enrollmentSteps, MAX_SCHOLARSHIP, type SegmentReason } from "@/lib/matriculas";
+import { pillars, type PillarTone } from "@/lib/pillars";
+import { breadcrumbJsonLd, faqJsonLd, pageMetadata, programJsonLd } from "@/lib/seo";
 import { segments } from "@/lib/segments";
 import { NEW_CAMPUS_URL, siteConfig, whatsappUrl } from "@/lib/site";
+
+const reasonIcons: Record<SegmentReason["icon"], LucideIcon> = {
+  book: BookOpenCheck,
+  clock: Clock,
+  heart: HeartHandshake,
+  family: Users,
+  compass: Compass,
+  shield: Shield,
+  layers: Layers,
+  target: Target,
+  landmark: Landmark,
+  trending: TrendingUp,
+  flag: Flag,
+};
+
+// ícone e cor da moldura de cada pilar, iguais aos da seção de pilares da home
+const pillarIcons: Record<string, LucideIcon> = { "fe-crista": Cross, disciplina: Shield, estabilidade: Landmark, liberdade: TrendingUp };
+const pillarRings: Record<PillarTone, string> = {
+  gold: "from-gold-300 via-gold to-gold-600",
+  navy: "from-blue-700 via-navy to-navy-950",
+  blue: "from-blue-400 via-blue-500 to-blue-700",
+  sky: "from-blue-200 via-blue-400 to-blue-500",
+};
+
+const platforms = [
+  {
+    eyebrow: "Plataforma IRIUM",
+    title: "O estudo segue além da aula",
+    text: "Pré-aulas, videoaulas e atividades organizadas por módulo, para revisar e praticar.",
+    image: "/plataformas/irium-tablet-3d.png",
+    alt: "Tablet com a plataforma IRIUM aberta em uma videoaula",
+  },
+  {
+    eyebrow: "Sistema escolar CPPEM",
+    title: "Escola e família mais próximas",
+    text: "Médias, frequência, tarefas e resultados em um só lugar, para alunos e responsáveis.",
+    image: "/plataformas/sistema-macbook-iphone-3d.png",
+    alt: "Notebook e celular com o sistema escolar do CPPEM",
+  },
+];
 
 type PageProps = { params: Promise<{ segmento: string }> };
 
@@ -56,10 +99,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const found = findSegment((await params).segmento);
   if (!found) return {};
   const { segment } = found;
-  return {
-    title: `Matrículas ${siteConfig.admissionsYear} — ${segment.title}`,
-    description: `Inscrição para o ${segment.title} (${segment.grades}) do Colégio CPPEM: mensalidades, bolsas de até ${MAX_SCHOLARSHIP}%, Bolsa Atleta, material e farda.`,
-  };
+  return pageMetadata({
+    title: `${segment.title} em Caruaru — Matrículas ${siteConfig.admissionsYear}`,
+    description: `${segment.title} (${segment.grades}) no Colégio CPPEM, em Caruaru-PE: escola cristã e militarizada, plataforma IRIUM e Programa Bolsa Atleta. Faça a inscrição para ${siteConfig.admissionsYear}.`,
+    path: `/matriculas/${segment.id}`,
+  });
 }
 
 /** Bloco numerado da coluna de informações. */
@@ -94,7 +138,10 @@ export default async function EnrollmentPage({ params }: PageProps) {
   if (!found) notFound();
   const { segment, info } = found;
 
-  const lowestMonthly = applyScholarship(Math.min(...info.plans.map((plan) => plan.monthly)), MAX_SCHOLARSHIP);
+  const whatsappValues = whatsappUrl(
+    siteConfig.telephones[0].e164,
+    `Olá! Quero receber os valores e as condições do ${segment.title} (${segment.grades}) para ${siteConfig.admissionsYear}.`,
+  );
   const whatsappVisit = whatsappUrl(
     siteConfig.telephones[0].e164,
     `Olá! Vi a página de Matrículas ${siteConfig.admissionsYear} do ${segment.title} e quero agendar uma visita.`,
@@ -102,6 +149,9 @@ export default async function EnrollmentPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Início", path: "/" }, { name: "Segmentos de ensino", path: "/#segmentos" }, { name: segment.title, path: `/matriculas/${segment.id}` }])} />
+      <JsonLd data={programJsonLd({ name: segment.title, description: `${segment.grades}. ${segment.description}`, path: `/matriculas/${segment.id}` })} />
+      <JsonLd data={faqJsonLd(enrollmentFaqs)} />
       {/* ---------- topo ---------- */}
       <section className="surface-night overflow-hidden">
         <LightOrbs />
@@ -139,9 +189,9 @@ export default async function EnrollmentPage({ params }: PageProps) {
 
               <ul className="mt-8 grid max-w-xl grid-cols-3 gap-3">
                 {[
-                  { value: `até ${MAX_SCHOLARSHIP}%`, label: "de bolsa na mensalidade" },
-                  { value: "até 80%", label: "no Bolsa Atleta" },
-                  { value: formatCurrency(lowestMonthly), label: `por mês com bolsa de ${MAX_SCHOLARSHIP}%` },
+                  { value: "4 pilares", label: "fé, disciplina, estabilidade e liberdade" },
+                  { value: "até 80%", label: "no Programa Bolsa Atleta" },
+                  { value: "IRIUM", label: "plataforma de estudos na rotina" },
                 ].map((stat) => (
                   <li key={stat.label} className="rounded-2xl border border-white/12 bg-white/6 px-3 py-3.5 text-center backdrop-blur">
                     <p className="font-display text-[clamp(1.05rem,2.4vw,1.5rem)] leading-none font-black text-gold-300">{stat.value}</p>
@@ -192,31 +242,50 @@ export default async function EnrollmentPage({ params }: PageProps) {
       <section className="surface-day pt-10 pb-24 lg:pt-14">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start lg:gap-10 lg:px-8">
           <div className="space-y-6">
-            <InfoBlock id="valores" step={1} icon={Wallet} title={`Mensalidade ${siteConfig.admissionsYear}`} lead="Simule o valor com a bolsa prevista para a sua família.">
-              <TuitionSimulator plans={info.plans} />
+            <InfoBlock id="por-que" step={1} icon={Sparkles} title={`Por que o CPPEM no ${info.shortName}`} lead="O que o aluno vive nesta etapa, dentro e fora da sala.">
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {info.reasons.map((reason) => {
+                  const Icon = reasonIcons[reason.icon];
+                  return (
+                    <li key={reason.title} className="flex gap-3.5 rounded-2xl bg-blue-50/70 p-4 ring-1 ring-blue-100">
+                      <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-blue-600 ring-1 ring-blue-100">
+                        <Icon size={22} aria-hidden="true" />
+                      </span>
+                      <div>
+                        <h3 className="font-display leading-tight font-black text-navy">{reason.title}</h3>
+                        <p className="mt-1 text-sm leading-relaxed text-muted">{reason.text}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </InfoBlock>
 
-            <InfoBlock id="bolsas" step={2} icon={BadgePercent} title="Programa de bolsas" lead={`Bolsas de 20%, 30% ou ${MAX_SCHOLARSHIP}% na mensalidade, definidas em conversa com a equipe de matrículas.`}>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {SCHOLARSHIP_OPTIONS.filter(Boolean).map((percent) => (
-                  <div key={percent} className="rounded-2xl border-2 border-dashed border-blue-200 bg-blue-50/60 p-4 text-center">
-                    <p className="font-display text-3xl leading-none font-black text-blue-600">{percent}%</p>
-                    <ul className="mt-2.5 space-y-1 text-sm">
-                      {info.plans.map((plan) => (
-                        <li key={plan.id}>
-                          {info.plans.length > 1 && <span className="text-muted">{plan.label}: </span>}
-                          <span className="font-display text-base font-black text-navy">{formatCurrency(applyScholarship(plan.monthly, percent))}</span>
-                          {info.plans.length === 1 && <span className="text-muted"> /mês</span>}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4 flex items-start gap-2 rounded-2xl bg-gold-50 px-4 py-3 text-sm leading-relaxed text-foreground">
-                <Sparkles size={16} className="mt-0.5 shrink-0 text-gold-600" aria-hidden="true" />
-                Bolsas sujeitas à análise, critérios institucionais e disponibilidade de vagas.
-              </p>
+            <InfoBlock id="pilares" step={2} icon={Columns4} title="Os quatro pilares" lead="A base de tudo o que acontece no colégio, em qualquer série.">
+              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {pillars.map((pillar) => {
+                  const PillarIcon = pillarIcons[pillar.id] ?? Shield;
+                  return (
+                  <li key={pillar.id} className="flex flex-col items-center rounded-2xl bg-linear-to-b from-blue-50 to-white px-3 pt-5 pb-4 text-center ring-1 ring-blue-100">
+                    {/* a foto do pilar em círculo, com a moldura na cor dele e o ícone, como na home */}
+                    <span className={`relative block size-24 rounded-full bg-linear-to-br p-1 shadow-[0_12px_24px_-12px_rgb(6_22_58/0.55)] sm:size-28 ${pillarRings[pillar.tone]}`}>
+                      <span className="relative block size-full overflow-hidden rounded-full bg-blue-100 ring-2 ring-white/70">
+                        {pillar.photo && <Image src={pillar.photo.src} alt="" fill sizes="112px" className="object-cover" />}
+                      </span>
+                      <span className="absolute -right-1 -bottom-1 grid size-9 place-items-center rounded-full bg-white text-navy shadow-[0_6px_14px_-6px_rgb(6_22_58/0.6)] ring-1 ring-blue-100">
+                        <PillarIcon size={18} strokeWidth={2.2} aria-hidden="true" />
+                      </span>
+                    </span>
+                    <h3 className="mt-4 font-display leading-tight font-black text-navy">{pillar.name}</h3>
+                    <p className="mt-1 text-xs leading-snug text-muted">{pillar.tagline}</p>
+                  </li>
+                  );
+                })}
+              </ul>
+              <Link href="/sobre#pilares" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 hover:underline">
+                Conheça cada pilar em detalhe
+                <ArrowRight size={14} aria-hidden="true" />
+              </Link>
             </InfoBlock>
 
             {/* Bolsa Atleta: bloco escuro para se destacar dos demais */}
@@ -261,40 +330,48 @@ export default async function EnrollmentPage({ params }: PageProps) {
               </div>
             </section>
 
-            <InfoBlock id="material" step={4} icon={BookOpen} title="Material didático IRIUM" lead="Livros integrados à plataforma digital, com pré-aulas, videoaulas e banco de questões.">
+            <InfoBlock id="plataformas" step={4} icon={MonitorPlay} title="Plataformas de estudo e acompanhamento" lead="Ferramentas digitais que apoiam as aulas e aproximam a família da vida escolar.">
               <ul className="grid gap-3 sm:grid-cols-2">
-                {info.plans.map((plan) => (
-                  <li key={plan.id} className="flex items-center gap-4 rounded-2xl bg-blue-50/70 p-4 ring-1 ring-blue-100">
-                    <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-blue-600 ring-1 ring-blue-100">
-                      <BookOpen size={20} aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="text-xs font-bold tracking-wide text-muted uppercase">{plan.label}</p>
-                      <p className="font-display text-xl leading-tight font-black text-navy">{formatCurrency(plan.books.cash)} <span className="text-sm font-extrabold text-muted">à vista</span></p>
-                      <p className="text-sm text-muted">ou 12x de {formatCurrency(plan.books.installment)} no cartão</p>
+                {platforms.map((platform) => (
+                  <li key={platform.title} className="overflow-hidden rounded-2xl bg-blue-50/70 ring-1 ring-blue-100">
+                    <div className="relative aspect-16/10 bg-linear-to-br from-blue-100 to-blue-200">
+                      <Image src={platform.image} alt={platform.alt} fill sizes="(min-width: 640px) 320px, 90vw" className="object-contain p-3" />
+                    </div>
+                    <div className="p-4">
+                      <p className="font-display text-xs font-black tracking-widest text-blue-600 uppercase">{platform.eyebrow}</p>
+                      <h3 className="mt-1 font-display leading-tight font-black text-navy">{platform.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-muted">{platform.text}</p>
                     </div>
                   </li>
                 ))}
               </ul>
             </InfoBlock>
 
-            <InfoBlock id="farda" step={5} icon={Shirt} title="Farda oficial" lead="Valores por peça — monte o kit conforme a necessidade do aluno.">
-              <div className="grid gap-4 sm:grid-cols-3">
-                {uniformGroups.map((group) => (
-                  <div key={group.title} className="rounded-2xl bg-blue-50/70 p-4 ring-1 ring-blue-100">
-                    <h3 className="font-display text-xs font-black tracking-widest text-blue-600 uppercase">{group.title}</h3>
-                    <ul className="mt-3 space-y-2.5 text-sm">
-                      {group.items.map((item) => (
-                        <li key={item.name} className="flex items-baseline justify-between gap-3 border-b border-dashed border-blue-200 pb-2 last:border-0 last:pb-0">
-                          <span>{item.name}</span>
-                          <span className="font-display font-black whitespace-nowrap text-navy">{item.price === null ? "Sob consulta" : formatCurrency(item.price)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+            {/* Valores: sem preço na página; quem quer saber o valor conversa com a equipe */}
+            <section id="valores" aria-labelledby="valores-titulo" className="surface-night scroll-mt-28 overflow-hidden rounded-[1.75rem] p-5 shadow-[0_24px_50px_-26px_rgb(6_22_58/0.9)] sm:p-7">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+                <span className="relative grid size-13 shrink-0 place-items-center rounded-2xl bg-linear-to-br from-gold-300 to-gold-600 text-navy-950 shadow-[0_0_24px_rgb(242_176_30/0.55)]">
+                  <HandCoins size={26} aria-hidden="true" />
+                  <span className="absolute -top-2 -right-2 grid size-6 place-items-center rounded-full bg-white font-display text-xs font-black text-navy">5</span>
+                </span>
+                <div className="flex-1">
+                  <h2 id="valores-titulo" className="font-display text-[1.35rem] leading-tight font-black text-white">Valores e condições</h2>
+                  <p className="mt-1 text-[15px] leading-relaxed text-blue-100/85">
+                    Mensalidade, bolsas de <strong className="text-gold-300">até {MAX_SCHOLARSHIP}%</strong>, material didático e farda são apresentados pela equipe de matrículas, de acordo com a série do aluno.
+                  </p>
+                </div>
               </div>
-            </InfoBlock>
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <a href={whatsappValues} target="_blank" rel="noopener noreferrer" className="btn-gold inline-flex items-center gap-2 rounded-full px-6 py-3 font-display font-black">
+                  <WhatsappIcon size={20} />
+                  Receber valores pelo WhatsApp
+                </a>
+                <a href="#inscricao" className="rounded-full border border-white/25 bg-white/5 px-6 py-3 font-display font-extrabold text-white transition-colors hover:border-blue-400 hover:bg-blue-500/20 lg:hidden">
+                  Preencher a inscrição
+                </a>
+              </div>
+              <p className="mt-4 text-xs leading-relaxed text-blue-100/65">Bolsas sujeitas à análise, critérios institucionais e disponibilidade de vagas.</p>
+            </section>
 
             <InfoBlock id="passos" step={6} icon={Footprints} title="Como garantir a vaga">
               <ol className="grid gap-3 sm:grid-cols-2">
@@ -319,10 +396,6 @@ export default async function EnrollmentPage({ params }: PageProps) {
                       <WhatsappIcon size={18} />
                       Agendar visita
                     </a>
-                    <a href={GUIDE_PDF} download className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 font-display text-sm font-extrabold text-white transition-colors hover:border-gold hover:text-gold-300">
-                      <Download size={16} aria-hidden="true" />
-                      Baixar guia (PDF)
-                    </a>
                   </div>
                 </div>
               </div>
@@ -332,6 +405,20 @@ export default async function EnrollmentPage({ params }: PageProps) {
                 Conheça a estrutura da nova sede
                 <ArrowRight size={14} aria-hidden="true" />
               </a>
+            </InfoBlock>
+
+            <InfoBlock id="duvidas" step={7} icon={CircleHelp} title="Perguntas frequentes">
+              <div className="space-y-2.5">
+                {enrollmentFaqs.map((faq) => (
+                  <details key={faq.question} className="group rounded-2xl bg-blue-50/70 ring-1 ring-blue-100 open:bg-white open:shadow-[0_14px_30px_-22px_rgb(16_48_122/0.6)]">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3.5 font-display leading-tight font-black text-navy [&::-webkit-details-marker]:hidden">
+                      {faq.question}
+                      <ChevronDown size={18} className="shrink-0 text-blue-600 transition-transform group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <p className="px-4 pb-4 text-[15px] leading-relaxed text-muted">{faq.answer}</p>
+                  </details>
+                ))}
+              </div>
             </InfoBlock>
           </div>
 
