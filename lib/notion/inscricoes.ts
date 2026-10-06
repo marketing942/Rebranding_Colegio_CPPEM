@@ -15,15 +15,15 @@ export type Enrollment = {
 
 const text = (content: string) => (content ? [{ type: "text" as const, text: { content } }] : []);
 
-/** Grava a inscrição no banco "Inscrições · Colégio CPPEM". Lança erro se não conseguir. */
-export async function saveEnrollment(enrollment: Enrollment): Promise<void> {
+/** Grava a inscrição no banco "Inscrições · Colégio CPPEM" e devolve o id da página. Lança erro se não conseguir. */
+export async function saveEnrollment(enrollment: Enrollment): Promise<string> {
   const databaseId = process.env.NOTION_ENROLLMENTS_DATABASE_ID;
   if (!notion || !databaseId) throw new Error("Notion de inscrições não configurado");
 
   const dataSourceId = await resolveDataSourceId(databaseId, notion);
   if (!dataSourceId) throw new Error("Banco de inscrições sem fonte de dados");
 
-  await notion.pages.create({
+  const page = await notion.pages.create({
     parent: { type: "data_source_id", data_source_id: dataSourceId },
     properties: {
       Aluno: { title: text(enrollment.student) },
@@ -37,4 +37,5 @@ export async function saveEnrollment(enrollment: Enrollment): Promise<void> {
       Status: { select: { name: "Novo" } },
     },
   });
+  return page.id;
 }

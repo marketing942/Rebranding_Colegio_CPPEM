@@ -3,6 +3,7 @@
 import { FIELD_NAMES, validateEnrollment, type EnrollmentErrors, type EnrollmentField } from "@/lib/lead-validation";
 import { enrollmentInfo } from "@/lib/matriculas";
 import { saveEnrollment } from "@/lib/notion/inscricoes";
+import { notifyEnrollment } from "@/lib/notify-enrollment";
 
 export type EnrollmentState = {
   status: "idle" | "success" | "error";
@@ -42,7 +43,8 @@ export async function submitEnrollment(_previous: EnrollmentState, formData: For
   }
 
   try {
-    await saveEnrollment({ ...values, segment: info.shortName });
+    const pageId = await saveEnrollment({ ...values, segment: info.shortName });
+    await notifyEnrollment(pageId);
     return { status: "success", values: { guardian: values.guardian, student: values.student, series: values.series } };
   } catch (error) {
     console.error("[inscricao] Falha ao gravar:", error instanceof Error ? error.message : "erro desconhecido");
