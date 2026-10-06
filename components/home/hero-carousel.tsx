@@ -29,6 +29,9 @@ function isExternal(href: string) {
 export function HeroCarousel({ banners }: { banners: CampaignBanner[] }) {
   const [active, setActive] = useState(0);
   const [ratios, setRatios] = useState<Record<string, number>>({});
+  // a moldura tem uma proporção só. Arte vertical de celular só entra quando todos os
+  // banners têm a sua; misturada com artes horizontais, ela ficaria minúscula na moldura
+  const useMobileArt = banners.every((item) => item.mobileUrl);
 
   // o contador reinicia a cada troca, inclusive nas manuais: quem clicou na seta
   // ganha o intervalo inteiro para ver a campanha antes de o carrossel seguir
@@ -51,7 +54,7 @@ export function HeroCarousel({ banners }: { banners: CampaignBanner[] }) {
           if (!alive || !image.naturalWidth || !image.naturalHeight) return;
           setRatios((current) => ({ ...current, [banner.id]: image.naturalWidth / image.naturalHeight }));
         };
-        image.src = mobile.matches && banner.mobileUrl ? banner.mobileUrl : banner.desktopUrl;
+        image.src = mobile.matches && useMobileArt && banner.mobileUrl ? banner.mobileUrl : banner.desktopUrl;
       }
     };
     measure();
@@ -60,7 +63,7 @@ export function HeroCarousel({ banners }: { banners: CampaignBanner[] }) {
       alive = false;
       mobile.removeEventListener("change", measure);
     };
-  }, [banners]);
+  }, [banners, useMobileArt]);
 
   const ratio = useMemo(() => commonRatio(Object.values(ratios)), [ratios]);
   const banner = banners[active];
@@ -86,11 +89,11 @@ export function HeroCarousel({ banners }: { banners: CampaignBanner[] }) {
             aria-label={`${banner.name}: saiba mais`}
             // formato vertical no celular só quando o banner tem arte mobile; sem ela a arte
             // horizontal ficaria pequena no meio de uma moldura alta
-            className={`relative block aspect-video overflow-hidden rounded-2xl bg-navy-950 shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)] ring-1 ring-white/15 transition-[aspect-ratio] duration-300 sm:rounded-3xl ${banner.mobileUrl ? "max-[800px]:aspect-4/5" : ""}`}
+            className={`relative block aspect-video overflow-hidden rounded-2xl bg-navy-950 shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)] ring-1 ring-white/15 transition-[aspect-ratio] duration-300 sm:rounded-3xl ${useMobileArt ? "max-[800px]:aspect-4/5" : ""}`}
             style={ratio ? { aspectRatio: String(ratio) } : undefined}
           >
             <picture className="absolute inset-0 block">
-              {banner.mobileUrl && <source media={MOBILE_QUERY} srcSet={banner.mobileUrl} />}
+              {useMobileArt && banner.mobileUrl && <source media={MOBILE_QUERY} srcSet={banner.mobileUrl} />}
               <img src={banner.desktopUrl} alt={banner.name} className="size-full object-contain" />
             </picture>
             {hasOverlay && (
