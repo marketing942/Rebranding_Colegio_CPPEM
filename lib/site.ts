@@ -45,6 +45,7 @@ export const NEW_CAMPUS_URL = "https://novasede.cppem.com.br";
 export const navItems = [
   { label: "Sobre", href: "/sobre" },
   { label: "Grade curricular", href: "/grade-curricular" },
+  { label: "Parceiros", href: "/parceiros" },
 ] as const;
 
 /**
