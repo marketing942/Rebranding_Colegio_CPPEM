@@ -46,27 +46,10 @@ export default async function PartnersPage() {
           </div>
 
           <div className="mx-auto mt-8 grid max-w-4xl gap-4 md:grid-cols-2 md:gap-5">
-            {/* empresa: destaque principal (destino do tráfego pago) */}
-            <a
-              href={CORPORATE_HREF}
-              className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-linear-to-br from-gold-300 via-gold to-gold-600 p-6 text-navy-950 shadow-[0_0_50px_rgb(242_176_30/0.35)] ring-2 ring-gold-300 transition-transform hover:-translate-y-1 sm:p-7 md:order-2"
-            >
-              <span className="absolute top-4 right-4 rounded-full bg-navy-950 px-3 py-1 font-display text-[11px] font-black tracking-wider text-gold-300 uppercase">Novo</span>
-              <span className="grid size-14 place-items-center rounded-2xl bg-navy-950 text-gold-300">
-                <Building2 size={28} aria-hidden="true" />
-              </span>
-              <p className="mt-5 font-display text-sm font-black tracking-widest text-navy-950/70 uppercase">Sou empresa</p>
-              <h2 className="mt-1 font-display text-2xl leading-tight font-black sm:text-[1.7rem]">Bolsa de estudo para os filhos dos meus funcionários</h2>
-              <p className="mt-2 text-[15px] leading-relaxed font-semibold text-navy-950/80">Ofereça à sua equipe um benefício que faz diferença na vida da família.</p>
-              <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-navy-950 px-6 py-3.5 font-display font-black text-white transition-colors group-hover:bg-navy">
-                Cadastrar minha empresa
-                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
-              </span>
-            </a>
-
+            {/* família primeiro: é quem chega pelo menu */}
             <a
               href="#rede"
-              className="group flex flex-col rounded-[1.75rem] border border-white/15 bg-white/8 p-6 text-white backdrop-blur transition-[transform,background-color] hover:-translate-y-1 hover:bg-white/12 sm:p-7 md:order-1"
+              className="group flex flex-col rounded-[1.75rem] border border-white/15 bg-white/8 p-6 text-white backdrop-blur transition-[transform,background-color] hover:-translate-y-1 hover:bg-white/12 sm:p-7"
             >
               <span className="grid size-14 place-items-center rounded-2xl bg-linear-to-br from-blue-400 to-blue-700 text-white">
                 <GraduationCap size={28} aria-hidden="true" />
@@ -74,8 +57,25 @@ export default async function PartnersPage() {
               <p className="mt-5 font-display text-sm font-black tracking-widest text-gold-300 uppercase">Sou família CPPEM</p>
               <h2 className="mt-1 font-display text-2xl leading-tight font-black sm:text-[1.7rem]">Descontos nas empresas parceiras</h2>
               <p className="mt-2 text-[15px] leading-relaxed text-blue-100/85">Saúde, comércio e serviços em Caruaru com condições especiais para alunos e famílias.</p>
-              <span className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 font-display font-black transition-colors group-hover:border-gold group-hover:text-gold-300 max-md:mt-6">
+              <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 font-display font-black transition-colors group-hover:border-gold group-hover:text-gold-300 md:mt-auto">
                 Ver parceiros
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </span>
+            </a>
+
+            {/* empresa: mesmo peso visual, com o dourado na borda e no botão */}
+            <a
+              href={CORPORATE_HREF}
+              className="group flex flex-col rounded-[1.75rem] border border-gold/60 bg-navy-950/60 p-6 text-white shadow-[0_0_40px_-12px_rgb(242_176_30/0.45)] backdrop-blur transition-[transform,border-color] hover:-translate-y-1 hover:border-gold sm:p-7"
+            >
+              <span className="grid size-14 place-items-center rounded-2xl bg-linear-to-br from-gold-300 to-gold-600 text-navy-950">
+                <Building2 size={28} aria-hidden="true" />
+              </span>
+              <p className="mt-5 font-display text-sm font-black tracking-widest text-gold-300 uppercase">Sou empresa</p>
+              <h2 className="mt-1 font-display text-2xl leading-tight font-black sm:text-[1.7rem]">Bolsa de estudo para os filhos dos meus funcionários</h2>
+              <p className="mt-2 text-[15px] leading-relaxed text-blue-100/85">Ofereça à sua equipe um benefício que faz diferença na vida da família.</p>
+              <span className="btn-gold mt-6 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-display font-black md:mt-auto">
+                Cadastrar minha empresa
                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </span>
             </a>
