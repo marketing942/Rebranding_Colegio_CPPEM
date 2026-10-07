@@ -9,7 +9,6 @@
 export const MAX_SCHOLARSHIP = 40;
 
 export const ATHLETES_SITE_URL = "https://atletas.cppem.com.br";
-export const ATHLETES_URL = `${ATHLETES_SITE_URL}/#inscricao`;
 
 export type SegmentReason = {
   icon: "book" | "clock" | "heart" | "family" | "compass" | "shield" | "layers" | "target" | "landmark" | "trending" | "flag";
