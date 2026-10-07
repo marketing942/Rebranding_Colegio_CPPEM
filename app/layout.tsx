@@ -41,6 +41,10 @@ export const metadata: Metadata = {
   other: { "geo.region": "BR-PE", "geo.placename": "Caruaru" },
 };
 
+// o menu de eventos e os banners vêm do Notion: todas as páginas se renovam a cada 5 min,
+// para um evento com "Exibir até" sumir no horário mesmo nas páginas estáticas
+export const revalidate = 300;
+
 export const viewport: Viewport = { themeColor: "#0a2356" };
 
 // loader do GTM server-side: o ID do container está embutido no caminho /metrics/

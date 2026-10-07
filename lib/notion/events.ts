@@ -19,6 +19,14 @@ function readDate(value: unknown): string | null {
   return typeof start === "string" ? start.slice(0, 10) : null;
 }
 
+/** "Exibir até" no Notion: depois desse momento o evento sai do menu sozinho. Data sem hora vale até o fim do dia. */
+function readHideAfter(value: unknown): number | null {
+  const start = (value as { date?: { start?: string } | null } | undefined)?.date?.start;
+  if (typeof start !== "string") return null;
+  const time = new Date(/^d{4}-d{2}-d{2}$/.test(start) ? `${start}T23:59:59-03:00` : start).getTime();
+  return Number.isNaN(time) ? null : time;
+}
+
 const richText = (value: unknown) => plainText((value as { rich_text?: unknown })?.rich_text);
 
 async function lerEventos(): Promise<EventItem[]> {
@@ -36,6 +44,8 @@ async function lerEventos(): Promise<EventItem[]> {
     const events = response.results.flatMap((page) => {
       const properties = (page as { properties?: Properties }).properties;
       if (!properties) return [];
+      const hideAfter = readHideAfter(properties["Exibir até"]);
+      if (hideAfter !== null && Date.now() > hideAfter) return [];
       const name = plainText((properties.Nome as { title?: unknown })?.title);
       const href = readSiteUrl(properties.Link);
       if (!name || !href) {
