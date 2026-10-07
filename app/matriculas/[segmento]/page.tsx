@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   BookOpenCheck,
@@ -18,7 +19,6 @@ import {
   MonitorPlay,
   Shield,
   Sparkles,
-  Star,
   Target,
   TrendingUp,
   Users,
@@ -148,27 +148,22 @@ export default async function EnrollmentPage({ params }: PageProps) {
               </h1>
               <p className="mt-4 max-w-xl text-lg text-blue-100/85">{segment.description}</p>
 
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {info.highlights.map((item) => (
-                  <li key={item} className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-sm font-bold text-white backdrop-blur">
-                    <Star size={14} className="fill-gold text-gold" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <ul className="mt-6 grid max-w-xl grid-cols-3 gap-3">
-                {[
-                  { value: "4 pilares", label: "fé, disciplina, estabilidade e liberdade" },
-                  { value: "1 min", label: "para fazer a inscrição" },
-                  { value: "IRIUM", label: "plataforma de estudos na rotina" },
-                ].map((stat) => (
-                  <li key={stat.label} className="rounded-2xl border border-white/12 bg-white/6 px-3 py-3.5 text-center backdrop-blur">
-                    <p className="font-display text-[clamp(1.05rem,2.4vw,1.5rem)] leading-none font-black text-gold-300">{stat.value}</p>
-                    <p className="mt-1.5 text-xs leading-tight text-blue-100/80">{stat.label}</p>
-                  </li>
-                ))}
-              </ul>
+              {/* troca de segmento */}
+              <nav aria-label="Outros segmentos" className="mt-6 flex flex-wrap gap-2">
+                {segments.map((item) => {
+                  const current = item.id === segment.id;
+                  return (
+                    <Link
+                      key={item.id}
+                      href={`/matriculas/${item.id}`}
+                      aria-current={current ? "page" : undefined}
+                      className={`rounded-full px-4 py-2 font-display text-sm font-extrabold transition-colors ${current ? "bg-white text-navy" : "border border-white/20 text-white/85 hover:border-gold hover:text-gold-300"}`}
+                    >
+                      {enrollmentInfo[item.id]?.shortName ?? item.title}
+                    </Link>
+                  );
+                })}
+              </nav>
 
               <a href="#inscricao" className="btn-gold mt-6 inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-display font-black lg:hidden">
                 <ClipboardPen size={18} aria-hidden="true" />
@@ -187,7 +182,6 @@ export default async function EnrollmentPage({ params }: PageProps) {
               </figcaption>
             </figure>
           </div>
-
         </div>
         <div className="gold-line" aria-hidden="true" />
       </section>
