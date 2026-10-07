@@ -130,62 +130,71 @@ export default async function EnrollmentPage({ params }: PageProps) {
       <JsonLd data={breadcrumbJsonLd([{ name: "Início", path: "/" }, { name: "Segmentos de ensino", path: "/#segmentos" }, { name: segment.title, path: `/matriculas/${segment.id}` }])} />
       <JsonLd data={programJsonLd({ name: segment.title, description: `${segment.grades}. ${segment.description}`, path: `/matriculas/${segment.id}` })} />
       <JsonLd data={faqJsonLd(enrollmentFaqs)} />
-      {/* ---------- topo: promessa + formulário de inscrição no primeiro quadro ---------- */}
+      {/* ---------- topo ---------- */}
       <section className="surface-night overflow-hidden">
         <LightOrbs />
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-14 lg:px-8 lg:py-14">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 font-display text-xs font-black tracking-wider text-gold-300 uppercase shadow-[0_0_20px_rgb(242_176_30/0.25)]">
-              <span className="size-2 animate-pulse rounded-full bg-gold" aria-hidden="true" />
-              Matrículas {siteConfig.admissionsYear} abertas
-            </span>
-            <h1 className="mt-5 font-display text-[clamp(2.2rem,5.2vw,3.9rem)] leading-[1.02] font-black text-white">
-              {segment.title}
-              <span className="mt-2 block bg-linear-to-r from-gold-300 via-gold to-gold-300 bg-clip-text text-[0.55em] text-transparent">
-                {segment.grades}
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+          <div className="grid items-center gap-8 md:grid-cols-[1.6fr_1fr] md:gap-10">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 font-display text-xs font-black tracking-wider text-gold-300 uppercase shadow-[0_0_20px_rgb(242_176_30/0.25)]">
+                <span className="size-2 animate-pulse rounded-full bg-gold" aria-hidden="true" />
+                Matrículas {siteConfig.admissionsYear} abertas
               </span>
-            </h1>
-            <p className="mt-4 max-w-xl text-lg leading-relaxed text-blue-100/85">{segment.description}</p>
+              <h1 className="mt-5 font-display text-[clamp(2rem,4.4vw,3.2rem)] leading-[1.03] font-black text-white">
+                {segment.title}
+                <span className="mt-2 block bg-linear-to-r from-gold-300 via-gold to-gold-300 bg-clip-text text-[0.55em] text-transparent">
+                  {segment.grades}
+                </span>
+              </h1>
+              <p className="mt-4 max-w-xl text-lg text-blue-100/85">{segment.description}</p>
 
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {info.highlights.map((item) => (
-                <li key={item} className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-sm font-bold text-white backdrop-blur">
-                  <Star size={14} className="fill-gold text-gold" aria-hidden="true" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {info.highlights.map((item) => (
+                  <li key={item} className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-sm font-bold text-white backdrop-blur">
+                    <Star size={14} className="fill-gold text-gold" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
 
-            {/* mascote do segmento, chamando para a inscrição */}
-            <div className="mt-8 flex items-center gap-4">
-              <span className="relative block size-24 shrink-0 -rotate-3 overflow-hidden rounded-3xl shadow-[0_0_0_3px_var(--gold),0_18px_36px_-14px_rgb(0_0_0/0.7)] sm:size-28">
-                <Image src={info.mascot.src} alt={`${info.mascot.name}, mascote do Colégio CPPEM`} width={224} height={224} priority className="size-full origin-top scale-125 object-cover object-top" />
-              </span>
-              <p className="relative max-w-sm rounded-2xl rounded-bl-sm bg-white px-4 py-3 text-[15px] leading-snug font-semibold text-navy shadow-[0_14px_30px_-14px_rgb(0_0_0/0.6)]">
-                Oi! Eu sou o <strong className="font-display font-black">{info.mascot.name}</strong>. Faça a inscrição e a nossa equipe entra em contato com você.
-              </p>
+              <ul className="mt-6 grid max-w-xl grid-cols-3 gap-3">
+                {[
+                  { value: "4 pilares", label: "fé, disciplina, estabilidade e liberdade" },
+                  { value: "1 min", label: "para fazer a inscrição" },
+                  { value: "IRIUM", label: "plataforma de estudos na rotina" },
+                ].map((stat) => (
+                  <li key={stat.label} className="rounded-2xl border border-white/12 bg-white/6 px-3 py-3.5 text-center backdrop-blur">
+                    <p className="font-display text-[clamp(1.05rem,2.4vw,1.5rem)] leading-none font-black text-gold-300">{stat.value}</p>
+                    <p className="mt-1.5 text-xs leading-tight text-blue-100/80">{stat.label}</p>
+                  </li>
+                ))}
+              </ul>
+
+              <a href="#inscricao" className="btn-gold mt-6 inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-display font-black lg:hidden">
+                <ClipboardPen size={18} aria-hidden="true" />
+                Fazer inscrição
+              </a>
             </div>
+
+            {/* mascote do segmento */}
+            <figure className="relative mx-auto w-40 md:w-full md:max-w-60">
+              <span className="absolute inset-[-12%] rounded-full bg-[radial-gradient(circle,rgb(242_176_30/0.4),rgb(47_127_240/0.3)_50%,transparent_72%)] blur-2xl" aria-hidden="true" />
+              <div className="relative rotate-3 overflow-hidden rounded-[2.25rem] shadow-[0_0_0_4px_var(--gold),0_30px_60px_-20px_rgb(0_0_0/0.7)]">
+                <Image src={info.mascot.src} alt={`${info.mascot.name}, mascote do Colégio CPPEM`} width={700} height={560} priority className="aspect-square w-full origin-top scale-125 object-cover object-top" />
+              </div>
+              <figcaption className="btn-gold absolute -bottom-3 left-1/2 -translate-x-1/2 -rotate-2 rounded-full px-4 py-1.5 font-display text-sm font-black whitespace-nowrap">
+                Oi! Eu sou o {info.mascot.name}
+              </figcaption>
+            </figure>
           </div>
 
-          {/* formulário */}
-          <div id="inscricao" aria-labelledby="inscricao-titulo" className="scroll-mt-24 overflow-hidden rounded-[1.75rem] bg-white shadow-[0_30px_70px_-30px_rgb(0_0_0/0.8)] ring-2 ring-gold/60">
-            <header className="bg-linear-to-br from-gold-300 via-gold to-gold-600 px-6 py-5">
-              <p className="inline-flex items-center gap-1.5 font-display text-xs font-black tracking-widest text-navy-950/70 uppercase">
-                <ClipboardPen size={14} aria-hidden="true" />
-                Inscrição · {siteConfig.admissionsYear}
-              </p>
-              <h2 id="inscricao-titulo" className="mt-1 font-display text-2xl leading-tight font-black text-navy-950">Garanta a vaga no {info.shortName}</h2>
-              <p className="mt-1 text-sm font-bold text-navy-950/75">Leva cerca de 1 minuto. Sem compromisso.</p>
-            </header>
-            <EnrollmentForm segmentId={segment.id} segmentName={segment.title} series={info.series} />
-          </div>
         </div>
         <div className="gold-line" aria-hidden="true" />
       </section>
 
-      {/* ---------- informações + atalho para a inscrição ---------- */}
+      {/* ---------- informações + formulário ---------- */}
       <section className="surface-day pt-10 pb-24 lg:pt-14">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-10 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start lg:gap-10 lg:px-8">
           <div className="space-y-6">
             <InfoBlock id="por-que" step={1} icon={Sparkles} title={`Por que o CPPEM no ${info.shortName}`} lead="O que o aluno vive nesta etapa, dentro e fora da sala.">
               <ul className="grid gap-3 sm:grid-cols-2">
@@ -275,19 +284,16 @@ export default async function EnrollmentPage({ params }: PageProps) {
             </InfoBlock>
           </div>
 
-          {/* atalho fixo de volta ao formulário (no celular, o botão flutuante faz esse papel) */}
-          <aside className="hidden lg:sticky lg:top-24 lg:block">
-            <div className="surface-night overflow-hidden rounded-[1.75rem] p-6 text-center shadow-[0_30px_70px_-30px_rgb(16_48_122/0.7)]">
-              <span className="relative mx-auto block size-32 rotate-3 overflow-hidden rounded-[1.75rem] shadow-[0_0_0_3px_var(--gold),0_20px_40px_-16px_rgb(0_0_0/0.7)]">
-                <Image src={info.mascot.src} alt="" width={256} height={256} className="size-full origin-top scale-125 object-cover object-top" />
-              </span>
-              <p className="mt-5 font-display text-xs font-black tracking-widest text-gold-300 uppercase">Matrículas {siteConfig.admissionsYear}</p>
-              <p className="mt-1 font-display text-xl leading-tight font-black text-white">Vagas abertas para o {info.shortName}</p>
-              <p className="mt-2 text-sm text-blue-100/80">A inscrição leva cerca de 1 minuto.</p>
-              <a href="#inscricao" className="btn-gold mt-5 flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-display font-black">
-                <ClipboardPen size={18} aria-hidden="true" />
-                Fazer inscrição
-              </a>
+          {/* formulário */}
+          <aside id="inscricao" aria-labelledby="inscricao-titulo" className="scroll-mt-24 lg:sticky lg:top-24">
+            <div className="overflow-hidden rounded-[1.75rem] bg-white shadow-[0_30px_70px_-30px_rgb(16_48_122/0.7)] ring-1 ring-blue-100 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
+              <header className="surface-night px-6 py-5">
+                <p className="font-display text-xs font-black tracking-widest text-gold-300 uppercase">Inscrição · {siteConfig.admissionsYear}</p>
+                <h2 id="inscricao-titulo" className="mt-1 font-display text-2xl leading-tight font-black text-white">{segment.title}</h2>
+                <p className="mt-1 text-sm text-blue-100/80">Preencha e nossa equipe entra em contato.</p>
+              </header>
+              <div className="gold-line" aria-hidden="true" />
+              <EnrollmentForm segmentId={segment.id} segmentName={segment.title} series={info.series} />
             </div>
           </aside>
         </div>
