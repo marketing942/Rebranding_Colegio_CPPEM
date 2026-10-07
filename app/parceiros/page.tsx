@@ -1,15 +1,16 @@
-import { Handshake, ShieldCheck, Sparkles, Send } from "lucide-react";
+import { ArrowRight, Building2, GraduationCap, Handshake, Send, ShieldCheck, Sparkles, Store } from "lucide-react";
 import { LightOrbs } from "@/components/home/light-orbs";
 import { PartnerDirectory } from "@/components/partners/partner-directory";
 import { PartnerForm } from "@/components/partners/partner-form";
 import { JsonLd } from "@/components/seo/json-ld";
+import { CORPORATE_HREF, corporateBenefits } from "@/lib/corporate";
 import { getPartners } from "@/lib/notion/partners";
 import { partnerCategories } from "@/lib/partners";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Parceiros do Colégio CPPEM — benefícios para as famílias",
-  description: "Conheça as empresas parceiras do Colégio CPPEM, em Caruaru-PE, e os benefícios para alunos e famílias. Sua empresa também pode fazer parte da rede.",
+  description: "Conheça as empresas parceiras do Colégio CPPEM, em Caruaru-PE, e os benefícios para as famílias. Empresas também podem oferecer bolsa de estudo para os filhos dos funcionários.",
   path: "/parceiros",
 });
 
@@ -29,34 +30,64 @@ export default async function PartnersPage() {
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: "Início", path: "/" }, { name: "Parceiros", path: "/parceiros" }])} />
 
-      {/* ---------- topo ---------- */}
+      {/* ---------- topo: duas portas claras (família e empresa) ---------- */}
       <section className="surface-night overflow-hidden">
         <LightOrbs />
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.5fr_1fr] lg:px-8 lg:py-20">
-          <div>
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+          <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 font-display text-xs font-black tracking-wider text-gold-300 uppercase">
-              Rede de parceiros
+              <Handshake size={14} aria-hidden="true" />
+              Parceiros CPPEM
             </span>
             <h1 className="mt-5 font-display text-[clamp(2.1rem,5vw,3.6rem)] leading-[1.04] font-black text-white">
-              Benefícios para toda a <span className="bg-linear-to-r from-gold-300 via-gold to-gold-300 bg-clip-text text-transparent">família CPPEM.</span>
+              Benefícios para famílias <span className="bg-linear-to-r from-gold-300 via-gold to-gold-300 bg-clip-text text-transparent">e para empresas.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-lg leading-relaxed text-blue-100/90">
-              Empresas de Caruaru que oferecem condições especiais para os alunos e as famílias do colégio.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#rede" className="btn-gold rounded-full px-7 py-3.5 font-display font-black">Ver parceiros</a>
-              <a href="#seja-parceiro" className="rounded-full border border-white/25 bg-white/5 px-7 py-3.5 font-display font-extrabold text-white backdrop-blur transition-colors hover:border-blue-400 hover:bg-blue-500/20">
-                Quero ser parceiro
-              </a>
-            </div>
+            <p className="mt-4 text-lg leading-relaxed text-blue-100/90">Escolha o que você procura:</p>
           </div>
-          <div className="relative mx-auto hidden size-60 md:grid md:place-items-center">
-            <span className="absolute inset-[-12%] rounded-full bg-[radial-gradient(circle,rgb(242_176_30/0.35),rgb(47_127_240/0.3)_50%,transparent_72%)] blur-2xl" aria-hidden="true" />
-            <span className="pillar-spin absolute inset-0 rounded-full border-2 border-dashed border-gold/40" aria-hidden="true" />
-            <span className="pillar-float-slow relative grid size-36 place-items-center rounded-full bg-linear-to-br from-gold-300 via-gold to-gold-600 text-navy-950 shadow-[0_0_40px_rgb(242_176_30/0.5)]">
-              <Handshake size={64} aria-hidden="true" />
-            </span>
+
+          <div className="mx-auto mt-8 grid max-w-4xl gap-4 md:grid-cols-2 md:gap-5">
+            {/* empresa: destaque principal (destino do tráfego pago) */}
+            <a
+              href={CORPORATE_HREF}
+              className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-linear-to-br from-gold-300 via-gold to-gold-600 p-6 text-navy-950 shadow-[0_0_50px_rgb(242_176_30/0.35)] ring-2 ring-gold-300 transition-transform hover:-translate-y-1 sm:p-7 md:order-2"
+            >
+              <span className="absolute top-4 right-4 rounded-full bg-navy-950 px-3 py-1 font-display text-[11px] font-black tracking-wider text-gold-300 uppercase">Novo</span>
+              <span className="grid size-14 place-items-center rounded-2xl bg-navy-950 text-gold-300">
+                <Building2 size={28} aria-hidden="true" />
+              </span>
+              <p className="mt-5 font-display text-sm font-black tracking-widest text-navy-950/70 uppercase">Sou empresa</p>
+              <h2 className="mt-1 font-display text-2xl leading-tight font-black sm:text-[1.7rem]">Bolsa de estudo para os filhos dos meus funcionários</h2>
+              <p className="mt-2 text-[15px] leading-relaxed font-semibold text-navy-950/80">Ofereça à sua equipe um benefício que faz diferença na vida da família.</p>
+              <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-navy-950 px-6 py-3.5 font-display font-black text-white transition-colors group-hover:bg-navy">
+                Cadastrar minha empresa
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </span>
+            </a>
+
+            <a
+              href="#rede"
+              className="group flex flex-col rounded-[1.75rem] border border-white/15 bg-white/8 p-6 text-white backdrop-blur transition-[transform,background-color] hover:-translate-y-1 hover:bg-white/12 sm:p-7 md:order-1"
+            >
+              <span className="grid size-14 place-items-center rounded-2xl bg-linear-to-br from-blue-400 to-blue-700 text-white">
+                <GraduationCap size={28} aria-hidden="true" />
+              </span>
+              <p className="mt-5 font-display text-sm font-black tracking-widest text-gold-300 uppercase">Sou família CPPEM</p>
+              <h2 className="mt-1 font-display text-2xl leading-tight font-black sm:text-[1.7rem]">Descontos nas empresas parceiras</h2>
+              <p className="mt-2 text-[15px] leading-relaxed text-blue-100/85">Saúde, comércio e serviços em Caruaru com condições especiais para alunos e famílias.</p>
+              <span className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 font-display font-black transition-colors group-hover:border-gold group-hover:text-gold-300 max-md:mt-6">
+                Ver parceiros
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </span>
+            </a>
           </div>
+
+          <p className="mt-6 text-center text-sm text-blue-100/75">
+            Tem um negócio e quer oferecer desconto às famílias?{" "}
+            <a href="#seja-parceiro" className="inline-flex items-center gap-1 font-bold text-gold-300 underline-offset-4 hover:underline">
+              <Store size={15} aria-hidden="true" />
+              Quero ser parceiro
+            </a>
+          </p>
         </div>
         <div className="gold-line" aria-hidden="true" />
       </section>
@@ -71,6 +102,38 @@ export default async function PartnersPage() {
           <div className="mt-8">
             <PartnerDirectory partners={partners} categories={partnerCategories} />
           </div>
+        </div>
+      </section>
+
+      {/* ---------- para empresas: chamada para a página do convênio ---------- */}
+      <section id="empresas" className="scroll-mt-20 bg-linear-to-br from-gold-300 via-gold to-gold-600 py-12 sm:py-14">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:px-8">
+          <div>
+            <p className="inline-flex items-center gap-2 font-display text-sm font-black tracking-widest text-navy-950/70 uppercase">
+              <Building2 size={16} aria-hidden="true" />
+              Convênio para empresas
+            </p>
+            <h2 className="mt-2 font-display text-[clamp(1.7rem,3.6vw,2.6rem)] leading-tight font-black text-navy-950">
+              Sua empresa pode dar bolsa de estudo para os filhos dos funcionários.
+            </h2>
+            <a href={CORPORATE_HREF} className="group mt-6 inline-flex items-center gap-2 rounded-full bg-navy-950 px-7 py-4 font-display text-lg font-black text-white transition-colors hover:bg-navy">
+              Quero bolsas para minha equipe
+              <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </a>
+          </div>
+          <ul className="grid gap-3">
+            {corporateBenefits.map(({ icon: Icon, title, text }) => (
+              <li key={title} className="flex items-start gap-3.5 rounded-2xl bg-white/85 p-4 shadow-[0_14px_30px_-24px_rgb(16_48_122/0.6)]">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-navy-950 text-gold-300">
+                  <Icon size={20} aria-hidden="true" />
+                </span>
+                <span>
+                  <strong className="block font-display leading-tight font-black text-navy">{title}</strong>
+                  <span className="mt-0.5 block text-sm leading-snug text-muted">{text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

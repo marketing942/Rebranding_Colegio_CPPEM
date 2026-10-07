@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/grade-curricular"), lastModified, changeFrequency: "monthly", priority: 0.8 },
     ...curriculum.map((axis) => ({ url: url(`/grade-curricular/${axis.id}`), lastModified, changeFrequency: "monthly" as const, priority: 0.7 })),
     { url: url("/parceiros"), lastModified, changeFrequency: "weekly", priority: 0.6 },
+    { url: url("/empresas"), lastModified, changeFrequency: "monthly", priority: 0.7 },
     ...segments.map((segment) => ({ url: url(`/matriculas/${segment.id}`), lastModified, changeFrequency: "monthly" as const, priority: 0.9 })),
   ];
 }

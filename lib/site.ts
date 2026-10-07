@@ -58,7 +58,7 @@ export const SEGMENTS_DEFAULT_HREF = "/matriculas/fundamental-2";
 export const ENROLL_HREF = "/#segmentos";
 
 /** Navegação do rodapé. */
-export const footerNavItems = [...navItems, { label: "Segmentos de ensino", href: ENROLL_HREF }] as const;
+export const footerNavItems = [...navItems, { label: "Segmentos de ensino", href: ENROLL_HREF }, { label: "Para empresas", href: "/empresas" }] as const;
 
 const { address } = siteConfig;
 export const enderecoCompleto = `${address.street}, ${address.neighborhood}, ${address.locality}-${address.region}, ${address.postalCode}`;
