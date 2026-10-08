@@ -1,0 +1,46 @@
+{
+  "operation": "read-only database metadata; no row queries",
+  "publicationCaveat": "public_url absent is not a complete sharing/permissions audit",
+  "results": [
+    {
+      "name": "inscricoes",
+      "accessibleByWebsiteToken": true,
+      "publicUrlConfigured": false,
+      "archived": false,
+      "inTrash": false,
+      "dataSourceCount": 1
+    },
+    {
+      "name": "banners",
+      "accessibleByWebsiteToken": true,
+      "publicUrlConfigured": false,
+      "archived": false,
+      "inTrash": false,
+      "dataSourceCount": 1
+    },
+    {
+      "name": "eventos",
+      "accessibleByWebsiteToken": true,
+      "publicUrlConfigured": false,
+      "archived": false,
+      "inTrash": false,
+      "dataSourceCount": 1
+    },
+    {
+      "name": "parceiros",
+      "accessibleByWebsiteToken": true,
+      "publicUrlConfigured": false,
+      "archived": false,
+      "inTrash": false,
+      "dataSourceCount": 1
+    },
+    {
+      "name": "convenios",
+      "accessibleByWebsiteToken": true,
+      "publicUrlConfigured": false,
+      "archived": false,
+      "inTrash": false,
+      "dataSourceCount": 1
+    }
+  ]
+}

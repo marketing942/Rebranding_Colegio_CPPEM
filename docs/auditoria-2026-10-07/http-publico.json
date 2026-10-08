@@ -1,0 +1,181 @@
+{
+  "auditDate": "2026-10-07",
+  "method": "read-only GET; no browser execution",
+  "results": [
+    {
+      "url": "https://colegio.cppem.com.br/",
+      "finalUrl": "https://colegio.cppem.com.br/",
+      "status": 200,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "s-maxage=31536000"
+      },
+      "gtm": true,
+      "privacyText": false,
+      "consentMarker": false,
+      "internalLinks": [
+        "/favicon.ico?favicon.0kqxc5oawg59z.ico",
+        "/#pilares",
+        "/#depoimentos",
+        "/#bolsa-atleta",
+        "/#perguntas-frequentes",
+        "/#contato",
+        "/ambientes",
+        "/#formulario"
+      ]
+    },
+    {
+      "url": "https://colegio.cppem.com.br/matriculas/fundamental-1",
+      "finalUrl": "https://colegio.cppem.com.br/matriculas/fundamental-1",
+      "status": 404,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+      },
+      "gtm": true,
+      "privacyText": false,
+      "consentMarker": false
+    },
+    {
+      "url": "https://colegio.cppem.com.br/parceiros",
+      "finalUrl": "https://colegio.cppem.com.br/parceiros",
+      "status": 404,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+      },
+      "gtm": true,
+      "privacyText": false,
+      "consentMarker": false
+    },
+    {
+      "url": "https://colegio.cppem.com.br/empresas",
+      "finalUrl": "https://colegio.cppem.com.br/empresas",
+      "status": 404,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+      },
+      "gtm": true,
+      "privacyText": false,
+      "consentMarker": false
+    },
+    {
+      "url": "https://colegio.cppem.com.br/privacidade",
+      "finalUrl": "https://colegio.cppem.com.br/privacidade",
+      "status": 404,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+      },
+      "gtm": true,
+      "privacyText": false,
+      "consentMarker": false
+    },
+    {
+      "url": "https://colegio.cppem.com.br/politica-de-privacidade",
+      "finalUrl": "https://colegio.cppem.com.br/politica-de-privacidade",
+      "status": 404,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+      },
+      "gtm": true,
+      "privacyText": false,
+      "consentMarker": false
+    },
+    {
+      "url": "https://colegio.cppem.com.br/robots.txt",
+      "finalUrl": "https://colegio.cppem.com.br/robots.txt",
+      "status": 200,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "public, max-age=0, must-revalidate"
+      },
+      "gtm": false,
+      "privacyText": false,
+      "consentMarker": false
+    },
+    {
+      "url": "https://colegio.cppem.com.br/sitemap.xml",
+      "finalUrl": "https://colegio.cppem.com.br/sitemap.xml",
+      "status": 200,
+      "headers": {
+        "content-security-policy": null,
+        "content-security-policy-report-only": null,
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": null,
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "permissions-policy": null,
+        "server": null,
+        "x-powered-by": null,
+        "cache-control": "public, max-age=0, must-revalidate"
+      },
+      "gtm": false,
+      "privacyText": false,
+      "consentMarker": false
+    },
+    {
+      "url": "http://colegio.cppem.com.br/",
+      "status": 301,
+      "location": "https://colegio.cppem.com.br/"
+    }
+  ]
+}

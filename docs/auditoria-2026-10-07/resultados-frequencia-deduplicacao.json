@@ -1,0 +1,386 @@
+{
+  "date": "2026-10-07",
+  "mode": "actual-source-with-mocked-notion-clock-and-request-headers",
+  "liveNotionWrites": 0,
+  "liveNotifications": 0,
+  "httpAndHostingNotTested": true,
+  "checks": 34,
+  "results": [
+    {
+      "action": "inscricao",
+      "scenario": "8 solicitações diferentes, mesmo IP",
+      "expectation": "5 aceitas, 3 bloqueadas antes do Notion",
+      "observed": {
+        "statuses": [
+          "success",
+          "success",
+          "success",
+          "success",
+          "success",
+          "error",
+          "error",
+          "error"
+        ],
+        "writes": 5,
+        "queries": 5
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "fim da janela de frequência",
+      "expectation": "novo envio permitido após 10 minutos",
+      "observed": {
+        "allowed": true
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "20 reenvios idênticos sequenciais",
+      "expectation": "1 registro; reenvios respondem sucesso",
+      "observed": {
+        "successes": 20,
+        "writes": 1,
+        "notifications": 1
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "limite exato de 30 minutos",
+      "expectation": "consulta Notion inclui registro na fronteira da janela",
+      "observed": {
+        "writes": 1
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "fim da janela de deduplicação sem cache ativo",
+      "expectation": "novo registro permitido após expirar o registro e o cache",
+      "observed": {
+        "writes": 2
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "5 reenvios simultâneos, mesma instância",
+      "expectation": "1 registro",
+      "observed": {
+        "writes": 1,
+        "queries": 1,
+        "notifications": 1
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "reenvio sequencial em outra instância",
+      "expectation": "consulta persistente evita segundo registro",
+      "observed": {
+        "instances": 2,
+        "writes": 1,
+        "queries": 2
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "envios simultâneos em instâncias diferentes",
+      "expectation": "medir proteção contra corrida entre consulta e criação",
+      "observed": {
+        "instances": 2,
+        "writes": 2,
+        "notifications": 2
+      },
+      "limitation": true
+    },
+    {
+      "action": "inscricao",
+      "scenario": "mesmo IP distribuído por duas instâncias",
+      "expectation": "medir se quota é global",
+      "observed": {
+        "accepted": 10,
+        "writes": 10,
+        "instances": 2
+      },
+      "limitation": true
+    },
+    {
+      "action": "inscricao",
+      "scenario": "61 solicitações diferentes, IPs diferentes",
+      "expectation": "limite de 60 por formulário na instância",
+      "observed": {
+        "accepted": 60,
+        "blocked": 1,
+        "writes": 60
+      },
+      "limitation": false
+    },
+    {
+      "action": "inscricao",
+      "scenario": "Notion falha na consulta, mas aceita criação",
+      "expectation": "medir comportamento de falha aberta da deduplicação",
+      "observed": {
+        "writes": 2
+      },
+      "limitation": true
+    },
+    {
+      "action": "parceiro",
+      "scenario": "8 solicitações diferentes, mesmo IP",
+      "expectation": "5 aceitas, 3 bloqueadas antes do Notion",
+      "observed": {
+        "statuses": [
+          "success",
+          "success",
+          "success",
+          "success",
+          "success",
+          "error",
+          "error",
+          "error"
+        ],
+        "writes": 5,
+        "queries": 5
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "fim da janela de frequência",
+      "expectation": "novo envio permitido após 10 minutos",
+      "observed": {
+        "allowed": true
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "20 reenvios idênticos sequenciais",
+      "expectation": "1 registro; reenvios respondem sucesso",
+      "observed": {
+        "successes": 20,
+        "writes": 1,
+        "notifications": 0
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "limite exato de 30 minutos",
+      "expectation": "consulta Notion inclui registro na fronteira da janela",
+      "observed": {
+        "writes": 1
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "fim da janela de deduplicação sem cache ativo",
+      "expectation": "novo registro permitido após expirar o registro e o cache",
+      "observed": {
+        "writes": 2
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "5 reenvios simultâneos, mesma instância",
+      "expectation": "1 registro",
+      "observed": {
+        "writes": 1,
+        "queries": 1,
+        "notifications": 0
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "reenvio sequencial em outra instância",
+      "expectation": "consulta persistente evita segundo registro",
+      "observed": {
+        "instances": 2,
+        "writes": 1,
+        "queries": 2
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "envios simultâneos em instâncias diferentes",
+      "expectation": "medir proteção contra corrida entre consulta e criação",
+      "observed": {
+        "instances": 2,
+        "writes": 2,
+        "notifications": 0
+      },
+      "limitation": true
+    },
+    {
+      "action": "parceiro",
+      "scenario": "mesmo IP distribuído por duas instâncias",
+      "expectation": "medir se quota é global",
+      "observed": {
+        "accepted": 10,
+        "writes": 10,
+        "instances": 2
+      },
+      "limitation": true
+    },
+    {
+      "action": "parceiro",
+      "scenario": "61 solicitações diferentes, IPs diferentes",
+      "expectation": "limite de 60 por formulário na instância",
+      "observed": {
+        "accepted": 60,
+        "blocked": 1,
+        "writes": 60
+      },
+      "limitation": false
+    },
+    {
+      "action": "parceiro",
+      "scenario": "Notion falha na consulta, mas aceita criação",
+      "expectation": "medir comportamento de falha aberta da deduplicação",
+      "observed": {
+        "writes": 2
+      },
+      "limitation": true
+    },
+    {
+      "action": "convenio",
+      "scenario": "8 solicitações diferentes, mesmo IP",
+      "expectation": "5 aceitas, 3 bloqueadas antes do Notion",
+      "observed": {
+        "statuses": [
+          "success",
+          "success",
+          "success",
+          "success",
+          "success",
+          "error",
+          "error",
+          "error"
+        ],
+        "writes": 5,
+        "queries": 5
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "fim da janela de frequência",
+      "expectation": "novo envio permitido após 10 minutos",
+      "observed": {
+        "allowed": true
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "20 reenvios idênticos sequenciais",
+      "expectation": "1 registro; reenvios respondem sucesso",
+      "observed": {
+        "successes": 20,
+        "writes": 1,
+        "notifications": 0
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "limite exato de 30 minutos",
+      "expectation": "consulta Notion inclui registro na fronteira da janela",
+      "observed": {
+        "writes": 1
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "fim da janela de deduplicação sem cache ativo",
+      "expectation": "novo registro permitido após expirar o registro e o cache",
+      "observed": {
+        "writes": 2
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "5 reenvios simultâneos, mesma instância",
+      "expectation": "1 registro",
+      "observed": {
+        "writes": 1,
+        "queries": 1,
+        "notifications": 0
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "reenvio sequencial em outra instância",
+      "expectation": "consulta persistente evita segundo registro",
+      "observed": {
+        "instances": 2,
+        "writes": 1,
+        "queries": 2
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "envios simultâneos em instâncias diferentes",
+      "expectation": "medir proteção contra corrida entre consulta e criação",
+      "observed": {
+        "instances": 2,
+        "writes": 2,
+        "notifications": 0
+      },
+      "limitation": true
+    },
+    {
+      "action": "convenio",
+      "scenario": "mesmo IP distribuído por duas instâncias",
+      "expectation": "medir se quota é global",
+      "observed": {
+        "accepted": 10,
+        "writes": 10,
+        "instances": 2
+      },
+      "limitation": true
+    },
+    {
+      "action": "convenio",
+      "scenario": "61 solicitações diferentes, IPs diferentes",
+      "expectation": "limite de 60 por formulário na instância",
+      "observed": {
+        "accepted": 60,
+        "blocked": 1,
+        "writes": 60
+      },
+      "limitation": false
+    },
+    {
+      "action": "convenio",
+      "scenario": "Notion falha na consulta, mas aceita criação",
+      "expectation": "medir comportamento de falha aberta da deduplicação",
+      "observed": {
+        "writes": 2
+      },
+      "limitation": true
+    },
+    {
+      "action": "guard",
+      "scenario": "primeira tarefa falha e dois reenvios aguardam",
+      "expectation": "medir exclusão mútua após falha",
+      "observed": {
+        "taskExecutions": 3,
+        "successfulCreates": 2
+      },
+      "limitation": true
+    }
+  ]
+}

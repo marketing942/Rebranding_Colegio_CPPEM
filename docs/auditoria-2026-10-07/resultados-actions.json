@@ -1,0 +1,64 @@
+{
+  "mode": "isolated-mocked-integrations",
+  "httpAndWafNotTested": true,
+  "results": [
+    {
+      "test": "repeated_identical_valid_submissions",
+      "action": "enrollment",
+      "accepted": 3,
+      "attempts": 3
+    },
+    {
+      "test": "filled_honeypot_blocks_persistence",
+      "action": "enrollment",
+      "passed": true
+    },
+    {
+      "test": "repeated_identical_valid_submissions",
+      "action": "partner",
+      "accepted": 3,
+      "attempts": 3
+    },
+    {
+      "test": "filled_honeypot_blocks_persistence",
+      "action": "partner",
+      "passed": true
+    },
+    {
+      "test": "repeated_identical_valid_submissions",
+      "action": "corporate",
+      "accepted": 3,
+      "attempts": 3
+    },
+    {
+      "test": "filled_honeypot_blocks_persistence",
+      "action": "corporate",
+      "passed": true
+    },
+    {
+      "test": "invalid_email_and_series_blocked",
+      "passed": true
+    },
+    {
+      "test": "inherited_segment_key",
+      "segment": "__proto__",
+      "unhandledError": "Cannot read properties of undefined (reading 'includes')"
+    },
+    {
+      "test": "inherited_segment_key",
+      "segment": "constructor",
+      "unhandledError": "Cannot read properties of undefined (reading 'includes')"
+    },
+    {
+      "test": "four_byte_invalid_png_passes_application_validation",
+      "passed": true,
+      "bytes": 4,
+      "notionAcceptanceNotTested": true
+    },
+    {
+      "test": "instagram_field_accepts_unrelated_https_host",
+      "passed": true,
+      "publicationRequiresManualApproval": true
+    }
+  ]
+}
