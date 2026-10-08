@@ -109,9 +109,11 @@ export default async function AxisPage({ params }: PageProps) {
             {axis.topics.map((topic, topicIndex) => {
               const Icon = curriculumIcons[topic.icon];
               const flipped = topicIndex % 2 === 1;
+              // photoSlots: 0 e sem fotos = tópico só com texto
+              const textOnly = topic.photos.length === 0 && topic.photoSlots === 0;
               return (
-                <article key={topic.id} id={topic.id} className="grid scroll-mt-24 items-center gap-8 lg:grid-cols-2 lg:gap-12">
-                  <div className={flipped ? "lg:order-2" : undefined}>
+                <article key={topic.id} id={topic.id} className={`grid scroll-mt-24 items-center gap-8 lg:gap-12 ${textOnly ? "" : "lg:grid-cols-2"}`}>
+                  <div className={textOnly ? "max-w-3xl" : flipped ? "lg:order-2" : undefined}>
                     <span className={`grid size-14 place-items-center rounded-2xl bg-linear-to-br text-white shadow-[0_10px_22px_-10px_rgb(16_48_122/0.8)] ${tone.circle}`}>
                       <Icon size={28} aria-hidden="true" />
                     </span>
@@ -131,9 +133,11 @@ export default async function AxisPage({ params }: PageProps) {
                       </ul>
                     )}
                   </div>
-                  <div className={flipped ? "lg:order-1" : undefined}>
-                    <TopicPhotos photos={topic.photos} slots={topic.photoSlots} tone={axis.tone} />
-                  </div>
+                  {!textOnly && (
+                    <div className={flipped ? "lg:order-1" : undefined}>
+                      <TopicPhotos photos={topic.photos} slots={topic.photoSlots} tone={axis.tone} />
+                    </div>
+                  )}
                 </article>
               );
             })}

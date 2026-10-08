@@ -65,8 +65,12 @@ export function TopicPhotos({ photos, slots = 1, tone }: { photos: CurriculumPho
   if (photos.length > 0) {
     return (
       <div className={`grid gap-3 ${photos.length > 1 ? "sm:grid-cols-2" : ""}`}>
-        {photos.map((photo) => (
-          <figure key={photo.src} className="relative aspect-4/3 overflow-hidden rounded-3xl bg-blue-100 shadow-[0_18px_40px_-24px_rgb(6_22_58/0.6)]">
+        {/* quantidade ímpar: a primeira foto ocupa a largura toda, para a grade não ficar com buraco */}
+        {photos.map((photo, index) => (
+          <figure
+            key={photo.src}
+            className={`relative aspect-4/3 overflow-hidden rounded-3xl bg-blue-100 shadow-[0_18px_40px_-24px_rgb(6_22_58/0.6)] ${index === 0 && photos.length > 1 && photos.length % 2 === 1 ? "sm:col-span-2 sm:aspect-video" : ""}`}
+          >
             <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 520px, 100vw" className="object-cover" />
           </figure>
         ))}

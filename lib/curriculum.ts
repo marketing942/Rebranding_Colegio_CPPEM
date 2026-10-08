@@ -20,7 +20,7 @@ export type CurriculumTopic = {
   highlights?: string[];
   /** Espaços para fotos. Vazio = mostra o espaço reservado. */
   photos: CurriculumPhoto[];
-  /** Quantos espaços reservados mostrar enquanto não houver fotos. */
+  /** Quantos espaços reservados mostrar enquanto não houver fotos. 0 = tópico só com texto. */
   photoSlots?: number;
 };
 
@@ -62,7 +62,7 @@ export const curriculum: CurriculumAxis[] = [
           "A disciplina é conduzida pelo Prof. Everton Mota, fundador do CPPEM, e aproxima o aluno do conteúdo cobrado nos concursos públicos de forma clara e aplicada ao dia a dia.",
         ],
         highlights: ["Constituição Federal", "Direitos e deveres", "Com o Prof. Everton Mota"],
-        photos: [],
+        photos: [{ src: "/grade/etica-e-justica-1.webp", alt: "Prof. Everton Mota em aula de Ética e Justiça com alunos do Colégio CPPEM" }],
         photoSlots: 2,
       },
       {
@@ -74,7 +74,7 @@ export const curriculum: CurriculumAxis[] = [
           "O treino constante com questões reais desenvolve raciocínio, agilidade e confiança para encarar qualquer prova.",
         ],
         highlights: ["Questões de concursos", "Provas", "Simulados"],
-        photos: [],
+        photos: [{ src: "/grade/matematica-para-concursos-1.webp", alt: "Aula de Matemática para concursos no Colégio CPPEM" }],
         photoSlots: 1,
       },
       {
@@ -87,7 +87,7 @@ export const curriculum: CurriculumAxis[] = [
         ],
         highlights: ["Do Fundamental 1 ao Médio", "Escrita e argumentação"],
         photos: [],
-        photoSlots: 1,
+        photoSlots: 0,
       },
     ],
   },
@@ -114,7 +114,7 @@ export const curriculum: CurriculumAxis[] = [
         ],
         highlights: ["Projeto de vida", "Educação financeira", "Plano de negócio"],
         photos: [],
-        photoSlots: 2,
+        photoSlots: 0,
       },
       {
         id: "inteligencia-artificial",
@@ -126,7 +126,7 @@ export const curriculum: CurriculumAxis[] = [
         ],
         highlights: ["Ferramentas de IA", "Tecnologia aplicada a projetos"],
         photos: [],
-        photoSlots: 1,
+        photoSlots: 0,
       },
       {
         id: "empresa-propria",
@@ -138,7 +138,7 @@ export const curriculum: CurriculumAxis[] = [
         ],
         highlights: ["Sozinho ou com colegas", "O colégio pode investir"],
         photos: [],
-        photoSlots: 2,
+        photoSlots: 0,
       },
     ],
   },
@@ -191,7 +191,11 @@ export const curriculum: CurriculumAxis[] = [
           "É um momento de pausa, propósito e cuidado com o coração antes das aulas.",
         ],
         highlights: ["Palavra de Deus", "Oração"],
-        photos: [],
+        photos: [
+          { src: "/grade/devocional-diario-1.webp", alt: "Alunos do Colégio CPPEM em oração no devocional" },
+          { src: "/grade/devocional-diario-2.webp", alt: "Aluna de olhos fechados durante a oração do devocional" },
+          { src: "/grade/devocional-diario-3.webp", alt: "Alunas em oração no início do dia" },
+        ],
         photoSlots: 1,
       },
       {
@@ -202,7 +206,10 @@ export const curriculum: CurriculumAxis[] = [
           "Toda sexta-feira o devocional recebe pastores, pregadores e convidados de fora, voltados à pregação da Palavra de Deus.",
         ],
         highlights: ["Pastores e pregadores", "Convidados especiais"],
-        photos: [],
+        photos: [
+          { src: "/grade/devocional-de-sexta-1.webp", alt: "Pregador convidado falando aos alunos no devocional de sexta-feira" },
+          { src: "/grade/devocional-de-sexta-2.webp", alt: "Pregador no púlpito durante o devocional de sexta-feira" },
+        ],
         photoSlots: 2,
       },
       {
@@ -214,7 +221,7 @@ export const curriculum: CurriculumAxis[] = [
         ],
         highlights: ["Aulas de ensino religioso", "Páscoa e outras datas"],
         photos: [],
-        photoSlots: 2,
+        photoSlots: 0,
       },
     ],
   },
