@@ -2,6 +2,7 @@
 
 import { CircleCheck, LoaderCircle, Send, TriangleAlert } from "lucide-react";
 import { useActionState } from "react";
+import { ConsentCheckbox } from "@/components/forms/consent-checkbox";
 import { submitCorporateRequest, type CorporateField, type CorporateState } from "@/app/parceiros/corporate-actions";
 
 const initialState: CorporateState = { status: "idle" };
@@ -116,6 +117,8 @@ export function CorporateForm() {
         <textarea {...field("message", "mensagem")} rows={3} maxLength={1200} placeholder="Conte um pouco sobre a empresa e quantos funcionários têm filhos em idade escolar" className={`${inputClass} resize-y`} />
       </div>
 
+      <ConsentCheckbox id="convenio-consent" purpose="o convênio" defaultChecked={values.consent === "on"} error={errors.consent} />
+
       {/* campo-isca contra robôs */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
         <label htmlFor="convenio-website">Não preencha este campo</label>
@@ -130,7 +133,6 @@ export function CorporateForm() {
         {pending ? <LoaderCircle size={20} className="animate-spin" aria-hidden="true" /> : <Send size={18} aria-hidden="true" />}
         {pending ? "Enviando…" : "Quero bolsas para minha equipe"}
       </button>
-      <p className="text-center text-xs leading-relaxed text-muted">Ao enviar, você autoriza o contato da equipe do Colégio CPPEM sobre o convênio.</p>
     </form>
   );
 }

@@ -3,6 +3,7 @@
 import { CircleCheck, LoaderCircle, Send, TriangleAlert, Upload } from "lucide-react";
 import { useActionState, useState, type ChangeEvent } from "react";
 import { submitPartnerProposal, type PartnerField, type PartnerProposalState } from "@/app/parceiros/actions";
+import { ConsentCheckbox } from "@/components/forms/consent-checkbox";
 import { partnerCategories } from "@/lib/partners";
 
 const initialState: PartnerProposalState = { status: "idle" };
@@ -132,6 +133,8 @@ export function PartnerForm() {
           {(logoError || errors.logo) && <p className="mt-1 text-xs font-bold text-red-600">{logoError || errors.logo}</p>}
         </div>
       </div>
+
+      <ConsentCheckbox id="parceiro-consent" purpose="a parceria" defaultChecked={values.consent === "on"} error={errors.consent} />
 
       {/* campo-isca contra robôs */}
       <div className="absolute -left-[9999px]" aria-hidden="true">

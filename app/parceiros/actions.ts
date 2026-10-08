@@ -5,7 +5,7 @@ import { savePartnerProposal } from "@/lib/notion/partners";
 import { allowSubmission, fingerprint, isRecentDuplicate, RATE_LIMIT_MESSAGE, runOnce } from "@/lib/request-guard";
 import { partnerCategories } from "@/lib/partners";
 
-export type PartnerField = "company" | "category" | "contact" | "phone" | "email" | "benefit" | "instagram" | "logo";
+export type PartnerField = "company" | "category" | "contact" | "phone" | "email" | "benefit" | "instagram" | "logo" | "consent";
 
 export type PartnerProposalState = {
   status: "idle" | "success" | "error";
@@ -50,6 +50,8 @@ export async function submitPartnerProposal(_previous: PartnerProposalState, for
     email: read(formData, "correio", 160),
     benefit: read(formData, "benefit", 1200),
     instagram: read(formData, "instagram", 120),
+    // consentimento LGPD: "on" quando a caixa está marcada
+    consent: read(formData, "lgpd_consent", 10),
   };
 
   const errors: PartnerProposalState["errors"] = {};
@@ -58,6 +60,7 @@ export async function submitPartnerProposal(_previous: PartnerProposalState, for
   if (values.contact.length < 2) errors.contact = "Informe o nome do responsável.";
   if (!isValidPhone(values.phone)) errors.phone = "Informe o telefone com DDD.";
   if (!EMAIL_PATTERN.test(values.email)) errors.email = "Informe um e-mail válido.";
+  if (values.consent !== "on") errors.consent = "Para enviar, autorize o contato da equipe.";
 
   let logo: Parameters<typeof savePartnerProposal>[0]["logo"] = null;
   const file = formData.get("logo");

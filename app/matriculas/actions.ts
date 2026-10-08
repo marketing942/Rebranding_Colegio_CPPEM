@@ -1,6 +1,9 @@
 "use server";
 
+import { after } from "next/server";
 import { FIELD_NAMES, validateEnrollment, type EnrollmentErrors, type EnrollmentField } from "@/lib/lead-validation";
+import { mirrorEnrollmentToSheet } from "@/lib/google-sheets";
+import { ORIGIN_FIELDS } from "@/lib/lead-origin";
 import { enrollmentInfo } from "@/lib/matriculas";
 import { saveEnrollment } from "@/lib/notion/inscricoes";
 import { notifyEnrollment } from "@/lib/notify-enrollment";
@@ -34,6 +37,7 @@ export async function submitEnrollment(_previous: EnrollmentState, formData: For
     phone: read(formData, FIELD_NAMES.phone, 30),
     series: read(formData, FIELD_NAMES.series, 20),
     notes: read(formData, FIELD_NAMES.notes, 1000),
+    consent: read(formData, FIELD_NAMES.consent, 10),
   };
 
   const errors = validateEnrollment(values, info.series);
@@ -54,6 +58,18 @@ export async function submitEnrollment(_previous: EnrollmentState, formData: For
       const { pageId, duplicate } = await saveEnrollment({ ...values, segment: info.shortName });
       if (duplicate) return "duplicate";
       await notifyEnrollment(pageId);
+      // planilha central depois da resposta: a família vê a confirmação sem esperar o Apps Script
+      after(() =>
+        mirrorEnrollmentToSheet({
+          guardian: values.guardian,
+          email: values.email,
+          phone: values.phone,
+          series: `${info.shortName} · ${values.series}`,
+          pageUrl: read(formData, ORIGIN_FIELDS.page, 2048),
+          utmSource: read(formData, ORIGIN_FIELDS.utm_source, 255),
+          utmCampaign: read(formData, ORIGIN_FIELDS.utm_campaign, 255),
+        }),
+      );
       return "created";
     });
     return success;

@@ -4,7 +4,7 @@ import { isValidPhone } from "@/lib/lead-validation";
 import { EMPLOYEE_RANGES, saveCorporateRequest } from "@/lib/notion/corporate";
 import { allowSubmission, fingerprint, isRecentDuplicate, RATE_LIMIT_MESSAGE, runOnce } from "@/lib/request-guard";
 
-export type CorporateField = "company" | "cnpj" | "industry" | "employees" | "contact" | "role" | "phone" | "email" | "message";
+export type CorporateField = "company" | "cnpj" | "industry" | "employees" | "contact" | "role" | "phone" | "email" | "message" | "consent";
 
 export type CorporateState = {
   status: "idle" | "success" | "error";
@@ -35,6 +35,8 @@ export async function submitCorporateRequest(_previous: CorporateState, formData
     phone: read(formData, "contato_conv", 30),
     email: read(formData, "correio_conv", 160),
     message: read(formData, "mensagem", 1200),
+    // consentimento LGPD: "on" quando a caixa está marcada
+    consent: read(formData, "lgpd_consent", 10),
   };
 
   const errors: CorporateState["errors"] = {};
@@ -44,6 +46,7 @@ export async function submitCorporateRequest(_previous: CorporateState, formData
   if (values.contact.length < 2) errors.contact = "Informe o nome do responsável.";
   if (!isValidPhone(values.phone)) errors.phone = "Informe o telefone com DDD.";
   if (!EMAIL_PATTERN.test(values.email)) errors.email = "Informe um e-mail válido.";
+  if (values.consent !== "on") errors.consent = "Para enviar, autorize o contato da equipe.";
 
   if (Object.keys(errors).length > 0) return { status: "error", message: "Confira os campos destacados.", errors, values };
 

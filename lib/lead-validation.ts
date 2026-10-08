@@ -2,7 +2,7 @@
  * Validação do formulário de inscrição. A mesma regra roda no navegador (antes
  * de o evento de envio chegar ao rastreamento) e no servidor.
  */
-export type EnrollmentField = "guardian" | "student" | "email" | "phone" | "series" | "notes";
+export type EnrollmentField = "guardian" | "student" | "email" | "phone" | "series" | "notes" | "consent";
 export type EnrollmentValues = Record<EnrollmentField, string>;
 export type EnrollmentErrors = Partial<Record<EnrollmentField, string>>;
 
@@ -17,6 +17,8 @@ export const FIELD_NAMES: Record<EnrollmentField, string> = {
   phone: "phone",
   series: "series",
   notes: "notes",
+  // caixa de consentimento LGPD: chega "on" quando marcada
+  consent: "lgpd_consent",
 };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -38,5 +40,6 @@ export function validateEnrollment(values: EnrollmentValues, series: readonly st
   if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = "Informe um e-mail válido.";
   if (!isValidPhone(values.phone)) errors.phone = "Informe o telefone com DDD.";
   if (!series.includes(values.series)) errors.series = "Selecione a série.";
+  if (values.consent !== "on") errors.consent = "Para enviar, autorize o contato da equipe de matrículas.";
   return errors;
 }

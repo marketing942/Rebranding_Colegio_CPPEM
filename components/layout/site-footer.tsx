@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, Navigation, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, BriefcaseBusiness, Mail, MapPin, Navigation, ShieldCheck } from "lucide-react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon, ThreadsIcon, TiktokIcon, WhatsappIcon, YoutubeIcon } from "@/components/layout/brand-icons";
 import { LightOrbs } from "@/components/home/light-orbs";
-import { footerNavItems, mapsUrl, NEW_CAMPUS_URL, siteConfig, whatsappPrincipal, whatsappUrl } from "@/lib/site";
+import { CAREERS_URL, footerNavItems, mapsUrl, NEW_CAMPUS_URL, siteConfig, whatsappPrincipal, whatsappUrl } from "@/lib/site";
 
 // só entram as redes que têm link em lib/site.ts
 const socialLinks = [
@@ -118,6 +118,12 @@ export function SiteFooter() {
               <a href={`mailto:${siteConfig.email}`} className={linkClass}>
                 <Mail size={16} className="shrink-0 text-gold" aria-hidden="true" />
                 {siteConfig.email}
+              </a>
+            </li>
+            <li>
+              <a href={CAREERS_URL} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                <BriefcaseBusiness size={16} className="shrink-0 text-gold" aria-hidden="true" />
+                Trabalhe conosco
               </a>
             </li>
           </ul>

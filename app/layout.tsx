@@ -3,6 +3,7 @@ import { Nunito, Nunito_Sans } from "next/font/google";
 import Script from "next/script";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { UtmCapture } from "@/components/layout/utm-capture";
 import { WhatsappFloat } from "@/components/layout/whatsapp-float";
 import { JsonLd } from "@/components/seo/json-ld";
 import { keywords, OG_IMAGE, schoolJsonLd, websiteJsonLd } from "@/lib/seo";
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <WhatsappFloat />
+        <UtmCapture />
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { CircleCheck, LoaderCircle, Send, TriangleAlert } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import { submitEnrollment, type EnrollmentState } from "@/app/matriculas/actions";
 import { WhatsappIcon } from "@/components/layout/brand-icons";
+import { ORIGIN_FIELDS, readUtm } from "@/lib/lead-origin";
 import { FIELD_NAMES, validateEnrollment, type EnrollmentErrors, type EnrollmentField, type EnrollmentValues } from "@/lib/lead-validation";
 import { siteConfig, whatsappUrl } from "@/lib/site";
 import { PIXELX_FORM_ID } from "@/lib/tracking";
@@ -27,6 +28,7 @@ const FIELD_IDS: Record<EnrollmentField, string> = {
   student: "inscricao-student",
   series: "inscricao-series",
   notes: "inscricao-notes",
+  consent: "inscricao-consent",
 };
 
 const labelClass = "font-display text-sm font-extrabold text-navy";
@@ -50,6 +52,15 @@ export function EnrollmentForm({ segmentId, segmentName, series }: Props) {
       const form = event.target;
       if (!(form instanceof HTMLFormElement) || form.id !== PIXELX_FORM_ID) return;
 
+      // origem do lead (UTM da primeira visita e página atual) entra nos campos ocultos antes do envio
+      const setHidden = (name: string, value: string) => {
+        const input = form.elements.namedItem(name);
+        if (input instanceof HTMLInputElement) input.value = value;
+      };
+      setHidden(ORIGIN_FIELDS.utm_source, readUtm("utm_source"));
+      setHidden(ORIGIN_FIELDS.utm_campaign, readUtm("utm_campaign"));
+      setHidden(ORIGIN_FIELDS.page, window.location.href.slice(0, 2048));
+
       const data = new FormData(form);
       const read = (field: EnrollmentField) => String(data.get(FIELD_NAMES[field]) ?? "");
       const values: EnrollmentValues = {
@@ -59,6 +70,7 @@ export function EnrollmentForm({ segmentId, segmentName, series }: Props) {
         phone: read("phone"),
         series: read("series"),
         notes: read("notes"),
+        consent: read("consent"),
       };
       const errors = validateEnrollment(values, series);
 
@@ -122,6 +134,10 @@ export function EnrollmentForm({ segmentId, segmentName, series }: Props) {
       <form id={PIXELX_FORM_ID} name="lead_form" action={formAction} className="space-y-4 px-6 pt-5 pb-6" noValidate hidden={succeeded}>
         {/* segmento vai como campo oculto: com .bind() na action o envio sem JavaScript travava o servidor no re-render */}
         <input type="hidden" name="segment" value={segmentId} />
+        {/* origem do lead: preenchidos no envio (ver barreira acima). Sem value/defaultValue de propósito: o React não pode resetá-los */}
+        <input type="hidden" name={ORIGIN_FIELDS.utm_source} />
+        <input type="hidden" name={ORIGIN_FIELDS.utm_campaign} />
+        <input type="hidden" name={ORIGIN_FIELDS.page} />
         {errorMessage && (
           <p className="flex items-start gap-2 rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-red-700" role="alert">
             <TriangleAlert size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
@@ -171,6 +187,26 @@ export function EnrollmentForm({ segmentId, segmentName, series }: Props) {
             Observações <span className="font-sans text-xs font-normal text-muted">(opcional)</span>
           </label>
           <textarea {...field("notes")} rows={2} maxLength={1000} placeholder="Algo que a gente deva saber?" className={`${inputClass} resize-y`} />
+        </div>
+
+        {/* consentimento LGPD: obrigatório, validado aqui e no servidor */}
+        <div>
+          <label htmlFor={FIELD_IDS.consent} className="flex cursor-pointer items-start gap-3 rounded-2xl border-2 border-blue-100 bg-blue-50/60 px-4 py-3 transition-colors has-checked:border-blue-500 has-checked:bg-white has-aria-invalid:border-red-400 has-aria-invalid:bg-red-50">
+            <input
+              id={FIELD_IDS.consent}
+              name={FIELD_NAMES.consent}
+              type="checkbox"
+              required
+              defaultChecked={values.consent === "on"}
+              aria-invalid={errors.consent ? true : undefined}
+              aria-describedby={errors.consent ? `${FIELD_IDS.consent}-erro` : undefined}
+              className="mt-0.5 size-4 shrink-0 accent-blue-600"
+            />
+            <span className="text-sm leading-snug text-foreground">
+              Autorizo o {siteConfig.name} a usar estes dados para entrar em contato comigo sobre a matrícula, conforme a Lei Geral de Proteção de Dados (LGPD).
+            </span>
+          </label>
+          {fieldError("consent")}
         </div>
 
         {/* campo-isca contra robôs: fica fora da tela e fora da navegação por teclado */}

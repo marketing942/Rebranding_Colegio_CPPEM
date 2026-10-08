@@ -38,6 +38,9 @@ export const siteConfig = {
   },
 } as const;
 
+/** Vagas e banco de currículos do grupo CPPEM (mesmo link do site antigo). */
+export const CAREERS_URL = "https://links.cppem.com.br/trabalhe-conosco";
+
 /** Site próprio da nova sede (Zona Norte). */
 export const NEW_CAMPUS_URL = "https://novasede.cppem.com.br";
 
