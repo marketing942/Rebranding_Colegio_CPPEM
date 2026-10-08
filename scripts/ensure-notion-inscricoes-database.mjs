@@ -41,10 +41,6 @@ if (!database) {
         "Responsável": { rich_text: {} },
         Email: { email: {} },
         Telefone: { phone_number: {} },
-        "Gênero": { select: { options: [
-          { name: "Masculino", color: "blue" },
-          { name: "Feminino", color: "pink" },
-        ] } },
         Segmento: { select: { options: [
           { name: "Fundamental 1", color: "blue" },
           { name: "Fundamental 2", color: "purple" },

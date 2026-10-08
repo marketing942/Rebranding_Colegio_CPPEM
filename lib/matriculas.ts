@@ -66,8 +66,6 @@ export const enrollmentInfo: Record<string, EnrollmentInfo> = {
   },
 };
 
-export const GENDER_OPTIONS = ["Masculino", "Feminino"] as const;
-
 export const athleteTiers = [
   { percent: "80%", name: "Atleta Elite", tag: "Alto rendimento", note: "Destaque estadual ou nacional em competições oficiais." },
   { percent: "60%", name: "Atleta Performance", tag: "Performance comprovada", note: "Equipes oficiais e resultados municipais e locais." },

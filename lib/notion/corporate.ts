@@ -1,5 +1,6 @@
 import "server-only";
 import { notion } from "@/lib/notion/client";
+import { findRecentPage } from "@/lib/notion/dedupe";
 import { resolveDataSourceId } from "@/lib/notion/properties";
 
 // Banco "Convênios empresariais · Colégio CPPEM", na página Sistemas Site.
@@ -21,11 +22,17 @@ export type CorporateRequest = {
 
 const text = (content: string) => (content ? [{ type: "text" as const, text: { content } }] : []);
 
-/** Grava o pedido de convênio com Status "Novo". Lança erro se não conseguir. */
-export async function saveCorporateRequest(request: CorporateRequest): Promise<void> {
+/** Grava o pedido de convênio com Status "Novo". Pedido igual (empresa e e-mail) gravado há pouco não é criado de novo. Lança erro se não conseguir. */
+export async function saveCorporateRequest(request: CorporateRequest): Promise<"created" | "duplicate"> {
   if (!notion) throw new Error("Notion não configurado");
   const dataSourceId = await resolveDataSourceId(CORPORATE_DATABASE_ID, notion);
   if (!dataSourceId) throw new Error("Banco de convênios sem fonte de dados");
+
+  const existing = await findRecentPage(dataSourceId, [
+    { property: "Empresa", title: { equals: request.company } },
+    { property: "Email", email: { equals: request.email } },
+  ]);
+  if (existing) return "duplicate";
 
   await notion.pages.create({
     parent: { type: "data_source_id", data_source_id: dataSourceId },
@@ -42,4 +49,5 @@ export async function saveCorporateRequest(request: CorporateRequest): Promise<v
       Status: { select: { name: "Novo" } },
     },
   });
+  return "created";
 }

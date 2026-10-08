@@ -2,6 +2,7 @@
 
 import { isValidPhone } from "@/lib/lead-validation";
 import { EMPLOYEE_RANGES, saveCorporateRequest } from "@/lib/notion/corporate";
+import { allowSubmission, fingerprint, isRecentDuplicate, RATE_LIMIT_MESSAGE, runOnce } from "@/lib/request-guard";
 
 export type CorporateField = "company" | "cnpj" | "industry" | "employees" | "contact" | "role" | "phone" | "email" | "message";
 
@@ -46,8 +47,13 @@ export async function submitCorporateRequest(_previous: CorporateState, formData
 
   if (Object.keys(errors).length > 0) return { status: "error", message: "Confira os campos destacados.", errors, values };
 
+  // reenvio do mesmo pedido: responde sucesso sem gravar de novo
+  const key = fingerprint("convenio", [values.company, values.email]);
+  if (isRecentDuplicate(key)) return { status: "success" };
+  if (!(await allowSubmission("convenio"))) return { status: "error", message: RATE_LIMIT_MESSAGE, values };
+
   try {
-    await saveCorporateRequest(values);
+    await runOnce(key, () => saveCorporateRequest(values));
     return { status: "success" };
   } catch (error) {
     console.error("[convenios] Falha ao gravar:", error instanceof Error ? error.message : "erro desconhecido");

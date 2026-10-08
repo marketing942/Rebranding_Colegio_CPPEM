@@ -5,7 +5,6 @@ import { useActionState, useEffect, useState } from "react";
 import { submitEnrollment, type EnrollmentState } from "@/app/matriculas/actions";
 import { WhatsappIcon } from "@/components/layout/brand-icons";
 import { FIELD_NAMES, validateEnrollment, type EnrollmentErrors, type EnrollmentField, type EnrollmentValues } from "@/lib/lead-validation";
-import { GENDER_OPTIONS } from "@/lib/matriculas";
 import { siteConfig, whatsappUrl } from "@/lib/site";
 import { PIXELX_FORM_ID } from "@/lib/tracking";
 
@@ -26,7 +25,6 @@ const FIELD_IDS: Record<EnrollmentField, string> = {
   email: "lead_email",
   phone: "lead_phone",
   student: "inscricao-student",
-  gender: "inscricao-gender",
   series: "inscricao-series",
   notes: "inscricao-notes",
 };
@@ -59,7 +57,6 @@ export function EnrollmentForm({ segmentId, segmentName, series }: Props) {
         student: read("student"),
         email: read("email"),
         phone: read("phone"),
-        gender: read("gender"),
         series: read("series"),
         notes: read("notes"),
       };
@@ -144,27 +141,15 @@ export function EnrollmentForm({ segmentId, segmentName, series }: Props) {
           {fieldError("student")}
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label htmlFor={FIELD_IDS.series} className={labelClass}>Série em {siteConfig.admissionsYear}</label>
-            <select {...field("series")} required className={inputClass}>
-              <option value="">Selecione</option>
-              {series.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-            {fieldError("series")}
-          </div>
-          <div>
-            <label htmlFor={FIELD_IDS.gender} className={labelClass}>Gênero do aluno</label>
-            <select {...field("gender")} required className={inputClass}>
-              <option value="">Selecione</option>
-              {GENDER_OPTIONS.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-            {fieldError("gender")}
-          </div>
+        <div>
+          <label htmlFor={FIELD_IDS.series} className={labelClass}>Série em {siteConfig.admissionsYear}</label>
+          <select {...field("series")} required className={inputClass}>
+            <option value="">Selecione</option>
+            {series.map((item) => (
+              <option key={item} value={item}>{item}</option>
+            ))}
+          </select>
+          {fieldError("series")}
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 xl:gap-3">

@@ -2,9 +2,7 @@
  * Validação do formulário de inscrição. A mesma regra roda no navegador (antes
  * de o evento de envio chegar ao rastreamento) e no servidor.
  */
-import { GENDER_OPTIONS } from "@/lib/matriculas";
-
-export type EnrollmentField = "guardian" | "student" | "email" | "phone" | "gender" | "series" | "notes";
+export type EnrollmentField = "guardian" | "student" | "email" | "phone" | "series" | "notes";
 export type EnrollmentValues = Record<EnrollmentField, string>;
 export type EnrollmentErrors = Partial<Record<EnrollmentField, string>>;
 
@@ -17,7 +15,6 @@ export const FIELD_NAMES: Record<EnrollmentField, string> = {
   student: "student",
   email: "email",
   phone: "phone",
-  gender: "gender",
   series: "series",
   notes: "notes",
 };
@@ -40,7 +37,6 @@ export function validateEnrollment(values: EnrollmentValues, series: readonly st
   if (values.student.trim().length < 3) errors.student = "Informe o nome do aluno.";
   if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = "Informe um e-mail válido.";
   if (!isValidPhone(values.phone)) errors.phone = "Informe o telefone com DDD.";
-  if (!(GENDER_OPTIONS as readonly string[]).includes(values.gender)) errors.gender = "Selecione uma opção.";
   if (!series.includes(values.series)) errors.series = "Selecione a série.";
   return errors;
 }

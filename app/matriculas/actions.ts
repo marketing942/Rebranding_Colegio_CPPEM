@@ -4,6 +4,7 @@ import { FIELD_NAMES, validateEnrollment, type EnrollmentErrors, type Enrollment
 import { enrollmentInfo } from "@/lib/matriculas";
 import { saveEnrollment } from "@/lib/notion/inscricoes";
 import { notifyEnrollment } from "@/lib/notify-enrollment";
+import { allowSubmission, fingerprint, isRecentDuplicate, RATE_LIMIT_MESSAGE, runOnce } from "@/lib/request-guard";
 
 export type EnrollmentState = {
   status: "idle" | "success" | "error";
@@ -31,7 +32,6 @@ export async function submitEnrollment(_previous: EnrollmentState, formData: For
     email: read(formData, FIELD_NAMES.email, 160),
     // o telefone é gravado como chegou: a formatação é a que a PixelX aplica no campo
     phone: read(formData, FIELD_NAMES.phone, 30),
-    gender: read(formData, FIELD_NAMES.gender, 20),
     series: read(formData, FIELD_NAMES.series, 20),
     notes: read(formData, FIELD_NAMES.notes, 1000),
   };
@@ -42,10 +42,21 @@ export async function submitEnrollment(_previous: EnrollmentState, formData: For
     return { status: "error", message: "Confira os campos destacados.", errors, values };
   }
 
+  const success: EnrollmentState = { status: "success", values: { guardian: values.guardian, student: values.student, series: values.series } };
+
+  // reenvio da mesma inscrição (duplo clique, nova tentativa após falha de conexão): responde sucesso sem gravar de novo
+  const key = fingerprint("inscricao", [values.email, values.student, values.series]);
+  if (isRecentDuplicate(key)) return success;
+  if (!(await allowSubmission("inscricao"))) return { status: "error", message: RATE_LIMIT_MESSAGE, values };
+
   try {
-    const pageId = await saveEnrollment({ ...values, segment: info.shortName });
-    await notifyEnrollment(pageId);
-    return { status: "success", values: { guardian: values.guardian, student: values.student, series: values.series } };
+    await runOnce(key, async () => {
+      const { pageId, duplicate } = await saveEnrollment({ ...values, segment: info.shortName });
+      if (duplicate) return "duplicate";
+      await notifyEnrollment(pageId);
+      return "created";
+    });
+    return success;
   } catch (error) {
     console.error("[inscricao] Falha ao gravar:", error instanceof Error ? error.message : "erro desconhecido");
     return {

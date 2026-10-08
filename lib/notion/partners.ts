@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { notion, NOTION_CACHE_SECONDS } from "@/lib/notion/client";
+import { findRecentPage } from "@/lib/notion/dedupe";
 import { isSafeWebUrl, plainText, readCheckbox, readNumber, readSelect, readUrl, resolveDataSourceId } from "@/lib/notion/properties";
 import { normalizePartnerKey, type Partner } from "@/lib/partners";
 
@@ -105,11 +106,20 @@ async function uploadLogo(logo: NonNullable<PartnerProposal["logo"]>): Promise<s
   }
 }
 
-/** Grava a proposta como Status "Novo" (não aparece no site até a equipe mudar para "Ativo"). Lança erro se não conseguir. */
-export async function savePartnerProposal(proposal: PartnerProposal): Promise<void> {
+/**
+ * Grava a proposta como Status "Novo" (não aparece no site até a equipe mudar para "Ativo").
+ * Proposta igual (empresa e e-mail) gravada há pouco não é criada de novo. Lança erro se não conseguir.
+ */
+export async function savePartnerProposal(proposal: PartnerProposal): Promise<"created" | "duplicate"> {
   if (!notion) throw new Error("Notion não configurado");
   const dataSourceId = await resolveDataSourceId(PARTNERS_DATABASE_ID, notion);
   if (!dataSourceId) throw new Error("Banco de parceiros sem fonte de dados");
+
+  const existing = await findRecentPage(dataSourceId, [
+    { property: "Nome", title: { equals: proposal.company } },
+    { property: "Email", email: { equals: proposal.email } },
+  ]);
+  if (existing) return "duplicate";
 
   const logoId = proposal.logo ? await uploadLogo(proposal.logo) : null;
 
@@ -127,4 +137,5 @@ export async function savePartnerProposal(proposal: PartnerProposal): Promise<vo
       ...(logoId ? { Logo: { files: [{ type: "file_upload", file_upload: { id: logoId }, name: proposal.logo!.filename }] } } : {}),
     },
   });
+  return "created";
 }

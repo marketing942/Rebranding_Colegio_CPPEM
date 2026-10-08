@@ -2,6 +2,7 @@
 
 import { isValidPhone } from "@/lib/lead-validation";
 import { savePartnerProposal } from "@/lib/notion/partners";
+import { allowSubmission, fingerprint, isRecentDuplicate, RATE_LIMIT_MESSAGE, runOnce } from "@/lib/request-guard";
 import { partnerCategories } from "@/lib/partners";
 
 export type PartnerField = "company" | "category" | "contact" | "phone" | "email" | "benefit" | "instagram" | "logo";
@@ -72,8 +73,13 @@ export async function submitPartnerProposal(_previous: PartnerProposalState, for
 
   if (Object.keys(errors).length > 0) return { status: "error", message: "Confira os campos destacados.", errors, values };
 
+  // reenvio da mesma proposta: responde sucesso sem gravar de novo
+  const key = fingerprint("parceiro", [values.company, values.email]);
+  if (isRecentDuplicate(key)) return { status: "success" };
+  if (!(await allowSubmission("parceiro"))) return { status: "error", message: RATE_LIMIT_MESSAGE, values };
+
   try {
-    await savePartnerProposal({ ...values, instagram: normalizeInstagram(values.instagram), logo });
+    await runOnce(key, () => savePartnerProposal({ ...values, instagram: normalizeInstagram(values.instagram), logo }));
     return { status: "success" };
   } catch (error) {
     console.error("[parceiros] Falha ao gravar proposta:", error instanceof Error ? error.message : "erro desconhecido");
