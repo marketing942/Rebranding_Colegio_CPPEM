@@ -21,7 +21,7 @@ const rows = {
     antigos: { nome: "Formando jovens com fé, disciplina e direcionamento", banner: "/banners/formando-jovens.webp", link: "/sobre", fim: null },
   },
   "3f1bbae8-074c-8176-b3fd-dd7249327635": {
-    novos: { nome: "Bolsa Atleta — pré-candidaturas abertas", banner: "/banners/bolsa-atleta-alunos.webp", link: "https://atletas.cppem.com.br", fim: null },
+    novos: { nome: "Bolsa Atleta — pré-candidaturas abertas", banner: "/banners/bolsa-atleta-alunos-v2.webp", link: "https://atletas.cppem.com.br", fim: null },
     antigos: { nome: "Formando quem fará diferença no amanhã", banner: "/banners/fara-diferenca.webp", link: "/#segmentos", fim: null },
   },
 };

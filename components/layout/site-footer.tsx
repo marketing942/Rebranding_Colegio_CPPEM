@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, BriefcaseBusiness, Mail, MapPin, Navigation, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, BriefcaseBusiness, LockKeyhole, Mail, MapPin, Navigation, ShieldCheck } from "lucide-react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon, ThreadsIcon, TiktokIcon, WhatsappIcon, YoutubeIcon } from "@/components/layout/brand-icons";
 import { LightOrbs } from "@/components/home/light-orbs";
 import { CAREERS_URL, footerNavItems, isExternalHref, mapsUrl, NEW_CAMPUS_URL, PRIVACY_HREF, siteConfig, whatsappPrincipal, whatsappUrl } from "@/lib/site";
@@ -155,12 +155,17 @@ export function SiteFooter() {
 
       {/* linha institucional */}
       <div className="border-t border-white/10 bg-navy-950/60">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-5 text-xs text-blue-100/60 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 text-xs text-blue-100/60 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+          {/* em destaque de propósito: é o acesso rápido à política (LGPD) em qualquer página */}
+          <Link
+            href={PRIVACY_HREF}
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-5 py-2.5 font-display text-sm font-black text-gold-300 transition-colors hover:bg-gold hover:text-navy-950"
+          >
+            <LockKeyhole size={16} aria-hidden="true" />
+            Política de Privacidade
+          </Link>
           <p>
-            © {new Date().getFullYear()} {siteConfig.legalName} · CNPJ {siteConfig.cnpj} ·{" "}
-            <Link href={PRIVACY_HREF} className="font-bold text-blue-100/85 underline underline-offset-4 hover:text-gold-300">
-              Política de Privacidade
-            </Link>
+            © {new Date().getFullYear()} {siteConfig.legalName} · CNPJ {siteConfig.cnpj}
           </p>
           <p className="inline-flex items-center gap-1.5">
             <ShieldCheck size={14} className="text-gold" aria-hidden="true" />
