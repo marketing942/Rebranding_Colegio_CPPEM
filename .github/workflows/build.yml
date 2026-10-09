@@ -1,0 +1,64 @@
+name: Build e publicação da imagem Docker
+
+# A cada push na main: builda a imagem, publica no GHCR e avisa o Portainer para atualizar a stack.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  # nome de imagem precisa ser minúsculo
+  IMAGE_NAME: marketing942/rebranding_colegio_cppem
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      # sem o secret, o passo do Portainer é pulado (a imagem continua publicada)
+      PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Preparar Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Login no GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tags da imagem
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=long
+
+      - name: Build e push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64
+          provenance: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # o token do Notion entra só no build (não fica na imagem): as páginas já saem com banners e eventos
+          secrets: |
+            NOTION_TOKEN=${{ secrets.NOTION_TOKEN }}
+
+      - name: Avisar o Portainer
+        if: ${{ env.PORTAINER_WEBHOOK_URL != '' }}
+        run: curl -fsS -X POST "$PORTAINER_WEBHOOK_URL"

@@ -5,11 +5,6 @@
  * apresentados pela equipe de matrículas. Não volte a colocar preços aqui.
  */
 
-/** Maior bolsa da mensalidade; citada só como percentual, nunca como valor. */
-export const MAX_SCHOLARSHIP = 40;
-
-export const ATHLETES_SITE_URL = "https://atletas.cppem.com.br";
-
 export type SegmentReason = {
   icon: "book" | "clock" | "heart" | "family" | "compass" | "shield" | "layers" | "target" | "landmark" | "trending" | "flag";
   title: string;
@@ -65,12 +60,6 @@ export const enrollmentInfo: Record<string, EnrollmentInfo> = {
     ],
   },
 };
-
-export const athleteTiers = [
-  { percent: "80%", name: "Atleta Elite", tag: "Alto rendimento", note: "Destaque estadual ou nacional em competições oficiais." },
-  { percent: "60%", name: "Atleta Performance", tag: "Performance comprovada", note: "Equipes oficiais e resultados municipais e locais." },
-  { percent: "até 50%", name: "Atleta em Desenvolvimento", tag: "Potencial em evolução", note: "Dedicação aos treinos e compromisso com os estudos." },
-];
 
 export const enrollmentSteps = [
   { title: "Faça a inscrição", text: "Preencha o formulário desta página. É rápido." },

@@ -49,6 +49,7 @@ export const navItems = [
   { label: "Sobre", href: "/sobre" },
   { label: "Grade curricular", href: "/grade-curricular" },
   { label: "Parceiros", href: "/parceiros" },
+  { label: "Notícias", href: "/noticias" },
 ] as const;
 
 /**

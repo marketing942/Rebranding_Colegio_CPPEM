@@ -1,0 +1,73 @@
+# Stack do Portainer (Docker Swarm + Traefik), no mesmo padrão do site antigo.
+# A imagem é buildada pelo GitHub Actions (.github/workflows/build.yml) e publicada no GHCR;
+# aqui o Portainer só faz o pull. Variáveis ${...}: preencha em "Environment variables" da stack.
+#
+# ATENÇÃO na troca do site antigo: dois routers do Traefik com o mesmo Host disputam o tráfego.
+# Para testar antes, use SITE_HOST com um subdomínio de teste; na virada, remova a stack antiga
+# (ou mude o Host dela) e troque SITE_HOST para colegio.cppem.com.br.
+version: "3.9"
+
+services:
+  colegio:
+    image: ghcr.io/marketing942/rebranding_colegio_cppem:latest
+    environment:
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: 1
+      PORT: 3000
+      HOSTNAME: "0.0.0.0"
+      # Notion (leitura do site e gravação dos formulários)
+      NOTION_TOKEN: ${NOTION_TOKEN}
+      NOTION_ENROLLMENTS_DATABASE_ID: ${NOTION_ENROLLMENTS_DATABASE_ID}
+      NOTION_BANNERS_DATABASE_ID: ${NOTION_BANNERS_DATABASE_ID:-10419726-1ecf-4802-93fd-a8a76bb4b77f}
+      # aviso de inscrição nova no WhatsApp (n8n)
+      N8N_ENROLLMENT_WEBHOOK_URL: ${N8N_ENROLLMENT_WEBHOOK_URL}
+      N8N_ENROLLMENT_WEBHOOK_SECRET: ${N8N_ENROLLMENT_WEBHOOK_SECRET}
+      # opcional: outra implantação do Apps Script da planilha central (vazio = a padrão)
+      GOOGLE_SHEETS_WEBHOOK_URL: ${GOOGLE_SHEETS_WEBHOOK_URL:-}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 3s
+      start_period: 20s
+      retries: 3
+    deploy:
+      replicas: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.colegionovo.entrypoints=websecure"
+        - "traefik.http.routers.colegionovo.priority=10"
+        - "traefik.http.routers.colegionovo.rule=Host(`${SITE_HOST:-colegio.cppem.com.br}`)"
+        - "traefik.http.routers.colegionovo.service=colegionovo"
+        - "traefik.http.routers.colegionovo.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.colegionovo.loadbalancer.passHostHeader=1"
+        - "traefik.http.services.colegionovo.loadbalancer.server.port=3000"
+      update_config:
+        # troca uma réplica por vez e só segue se a nova ficar saudável: deploy sem queda
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - CppemNet
+
+networks:
+  CppemNet:
+    external: true
+    name: CppemNet

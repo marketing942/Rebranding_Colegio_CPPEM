@@ -15,6 +15,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // build enxuto para a imagem Docker (Portainer): só o necessário para rodar `node server.js`
+  output: "standalone",
   // não anuncia "X-Powered-By: Next.js"
   poweredByHeader: false,
   images: {

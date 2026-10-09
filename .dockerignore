@@ -1,0 +1,50 @@
+# Dependências e artefatos de build (reinstalados/rebuildados na imagem)
+node_modules
+.next
+out
+build
+coverage
+next-env.d.ts
+
+# Controle de versão e CI
+.git
+.gitignore
+.gitattributes
+.github
+
+# Segredos e ambiente (NUNCA entram na imagem)
+.env
+.env.*
+*.pem
+
+# Ferramentas e configs de desenvolvimento
+.claude
+.cursor
+.vscode
+.idea
+.vercel
+
+# Documentação, auditorias e scripts de manutenção (não rodam no site)
+*.md
+docs
+scripts
+propostas
+
+# Logs e temporários
+*.log
+npm-debug.log*
+*.tsbuildinfo
+.DS_Store
+.tmp
+.temp
+.cache
+.turbo
+.swc
+
+# Docker (evita recursão do próprio contexto)
+Dockerfile
+.dockerignore
+compose.yml
+compose.yaml
+docker-compose.yml
+docker-compose.yaml

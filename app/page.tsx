@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { HeroFallback } from "@/components/home/hero-fallback";
+import { NewsSection } from "@/components/home/news-section";
 import { PillarsSection } from "@/components/home/pillars-section";
 import { PlatformsSection } from "@/components/home/platforms-section";
-import { ScholarshipsSection } from "@/components/home/scholarships-section";
 import { SegmentsSection } from "@/components/home/segments-section";
 import { VideoSection } from "@/components/home/video-section";
 import { StudentsSection } from "@/components/shared/students-section";
@@ -33,8 +33,8 @@ export default async function HomePage() {
       <PlatformsSection />
       <VideoSection showAboutLink />
       <StudentsSection />
+      <NewsSection />
       <LeadershipSection />
-      <ScholarshipsSection />
     </>
   );
 }
