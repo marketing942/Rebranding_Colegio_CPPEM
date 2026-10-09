@@ -6,7 +6,8 @@ import { submitEnrollment, type EnrollmentState } from "@/app/matriculas/actions
 import { WhatsappIcon } from "@/components/layout/brand-icons";
 import { ORIGIN_FIELDS, readUtm } from "@/lib/lead-origin";
 import { FIELD_NAMES, validateEnrollment, type EnrollmentErrors, type EnrollmentField, type EnrollmentValues } from "@/lib/lead-validation";
-import { siteConfig, whatsappUrl } from "@/lib/site";
+import Link from "next/link";
+import { PRIVACY_HREF, siteConfig, whatsappUrl } from "@/lib/site";
 import { PIXELX_FORM_ID } from "@/lib/tracking";
 
 const initialState: EnrollmentState = { status: "idle" };
@@ -203,7 +204,11 @@ export function EnrollmentForm({ segmentId, segmentName, series }: Props) {
               className="mt-0.5 size-4 shrink-0 accent-blue-600"
             />
             <span className="text-sm leading-snug text-foreground">
-              Autorizo o {siteConfig.name} a usar estes dados para entrar em contato comigo sobre a matrícula, conforme a Lei Geral de Proteção de Dados (LGPD).
+              Autorizo o {siteConfig.name} a usar estes dados para entrar em contato comigo sobre a matrícula, conforme a{" "}
+              <Link href={PRIVACY_HREF} target="_blank" className="font-bold text-blue-600 underline underline-offset-2 hover:text-blue-700">
+                Política de Privacidade
+              </Link>
+              {" "}e a LGPD.
             </span>
           </label>
           {fieldError("consent")}

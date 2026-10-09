@@ -41,15 +41,25 @@ export const siteConfig = {
 /** Vagas e banco de currículos do grupo CPPEM (mesmo link do site antigo). */
 export const CAREERS_URL = "https://links.cppem.com.br/trabalhe-conosco";
 
+/** Programa de indicação do colégio (site próprio). */
+export const REFERRAL_URL = "https://indica.colegio.cppem.com.br";
+
+/** Política de Privacidade (LGPD). */
+export const PRIVACY_HREF = "/politica-de-privacidade";
+
+/** Link que sai do site: abre em outra aba. */
+export const isExternalHref = (href: string) => /^https?:\/\//.test(href);
+
 /** Site próprio da nova sede (Zona Norte). */
 export const NEW_CAMPUS_URL = "https://novasede.cppem.com.br";
 
-/** Links simples do menu. Segmentos de ensino e Eventos são dropdowns montados no header. */
+/** Links simples do menu. Segmentos de ensino e Eventos são dropdowns montados no header. "Indique" leva ao site de indicações. */
 export const navItems = [
   { label: "Sobre", href: "/sobre" },
   { label: "Grade curricular", href: "/grade-curricular" },
   { label: "Parceiros", href: "/parceiros" },
   { label: "Notícias", href: "/noticias" },
+  { label: "Indique", href: REFERRAL_URL },
 ] as const;
 
 /**

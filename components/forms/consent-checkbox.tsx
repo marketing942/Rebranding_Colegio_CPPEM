@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { PRIVACY_HREF } from "@/lib/site";
+
 /** Caixa de consentimento LGPD (obrigatória). Marcada, envia "on" no campo `lgpd_consent`. */
 export function ConsentCheckbox({ id, purpose, defaultChecked, error }: { id: string; purpose: string; defaultChecked?: boolean; error?: string }) {
   return (
@@ -17,7 +20,11 @@ export function ConsentCheckbox({ id, purpose, defaultChecked, error }: { id: st
           className="mt-0.5 size-4 shrink-0 accent-blue-600"
         />
         <span className="text-sm leading-snug text-foreground">
-          Autorizo o Colégio CPPEM a usar estes dados para entrar em contato comigo sobre {purpose}, conforme a Lei Geral de Proteção de Dados (LGPD).
+          Autorizo o Colégio CPPEM a usar estes dados para entrar em contato comigo sobre {purpose}, conforme a{" "}
+          <Link href={PRIVACY_HREF} target="_blank" className="font-bold text-blue-600 underline underline-offset-2 hover:text-blue-700">
+            Política de Privacidade
+          </Link>
+          {" "}e a LGPD.
         </span>
       </label>
       {error && (

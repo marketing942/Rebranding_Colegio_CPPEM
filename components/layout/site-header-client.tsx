@@ -5,12 +5,13 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, CalendarDays, ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { segments } from "@/lib/segments";
-import { ENROLL_HREF, navItems, SEGMENTS_DEFAULT_HREF, siteConfig } from "@/lib/site";
+import { ENROLL_HREF, isExternalHref, navItems, SEGMENTS_DEFAULT_HREF, siteConfig } from "@/lib/site";
 import type { EventItem } from "@/types/content";
 
 type OpenMenu = "segmentos" | "eventos" | null;
 
-const navLinkClass = "rounded-full px-4 py-2 font-display text-[15px] font-extrabold text-white/85 transition-colors hover:bg-white/10 hover:text-gold-300";
+// sem quebra de linha: com 7 itens o menu só cabe a partir de 1280px (abaixo disso entra o menu do celular)
+const navLinkClass = "rounded-full px-3 py-2 font-display text-sm font-extrabold whitespace-nowrap 2xl:px-4 2xl:text-[15px] text-white/85 transition-colors hover:bg-white/10 hover:text-gold-300";
 const triggerClass = `${navLinkClass} inline-flex items-center gap-1.5 aria-expanded:bg-white/10 aria-expanded:text-gold-300`;
 const mobileLinkClass = "flex min-h-12 items-center font-display text-base font-extrabold text-white";
 const mobileTriggerClass = "flex min-h-12 w-full items-center justify-between font-display text-base font-extrabold text-white";
@@ -113,7 +114,7 @@ export function SiteHeaderClient({ events }: { events: EventItem[] }) {
   const toggleMobile = (menu: Exclude<OpenMenu, null>) => setMobileSection((current) => (current === menu ? null : menu));
 
   const panelClass = (menu: OpenMenu) =>
-    `absolute inset-x-0 top-full hidden border-b border-gold/30 bg-navy-950/97 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.7)] backdrop-blur transition duration-200 lg:block ${openMenu === menu ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`;
+    `absolute inset-x-0 top-full hidden border-b border-gold/30 bg-navy-950/97 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.7)] backdrop-blur transition duration-200 xl:block ${openMenu === menu ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`;
 
   return (
     <header
@@ -128,9 +129,9 @@ export function SiteHeaderClient({ events }: { events: EventItem[] }) {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Principal">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className={navLinkClass} onMouseEnter={closeMenus}>
+            <Link key={item.href} href={item.href} target={isExternalHref(item.href) ? "_blank" : undefined} rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined} className={navLinkClass} onMouseEnter={closeMenus}>
               {item.label}
             </Link>
           ))}
@@ -163,12 +164,12 @@ export function SiteHeaderClient({ events }: { events: EventItem[] }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href={ENROLL_HREF} className="btn-gold hidden rounded-full px-5 py-2.5 font-display text-sm font-black sm:inline-block" onMouseEnter={closeMenus}>
+          <Link href={ENROLL_HREF} className="btn-gold hidden rounded-full px-5 py-2.5 font-display text-sm font-black whitespace-nowrap sm:inline-block" onMouseEnter={closeMenus}>
             Matricule-se
           </Link>
           <button
             type="button"
-            className="grid size-11 place-items-center rounded-full text-white hover:bg-white/10 lg:hidden"
+            className="grid size-11 place-items-center rounded-full text-white hover:bg-white/10 xl:hidden"
             aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
             aria-expanded={mobileOpen}
             onClick={() => (mobileOpen ? closeMobile() : setMobileOpen(true))}
@@ -247,9 +248,9 @@ export function SiteHeaderClient({ events }: { events: EventItem[] }) {
 
       {/* menu mobile */}
       {mobileOpen && (
-        <nav className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-white/10 bg-navy-950 px-4 pb-4 lg:hidden" aria-label="Principal (mobile)">
+        <nav className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-white/10 bg-navy-950 px-4 pb-4 xl:hidden" aria-label="Principal (mobile)">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} onClick={closeMobile} className={mobileLinkClass}>
+            <Link key={item.href} href={item.href} target={isExternalHref(item.href) ? "_blank" : undefined} rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined} onClick={closeMobile} className={mobileLinkClass}>
               {item.label}
             </Link>
           ))}

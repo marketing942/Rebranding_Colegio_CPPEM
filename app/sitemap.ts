@@ -19,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...curriculum.map((axis) => ({ url: url(`/grade-curricular/${axis.id}`), lastModified, changeFrequency: "monthly" as const, priority: 0.7 })),
     { url: url("/parceiros"), lastModified, changeFrequency: "weekly", priority: 0.6 },
     { url: url("/empresas"), lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: url("/politica-de-privacidade"), lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: url("/noticias"), lastModified, changeFrequency: "daily", priority: 0.7 },
     ...news.map((item) => ({ url: url(`/noticias/${item.slug}`), lastModified: new Date(`${item.date}T08:00:00-03:00`), changeFrequency: "monthly" as const, priority: 0.6 })),
     ...segments.map((segment) => ({ url: url(`/matriculas/${segment.id}`), lastModified, changeFrequency: "monthly" as const, priority: 0.9 })),

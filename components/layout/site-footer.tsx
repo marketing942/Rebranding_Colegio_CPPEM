@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, BriefcaseBusiness, Mail, MapPin, Navigation, ShieldCheck } from "lucide-react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon, ThreadsIcon, TiktokIcon, WhatsappIcon, YoutubeIcon } from "@/components/layout/brand-icons";
 import { LightOrbs } from "@/components/home/light-orbs";
-import { CAREERS_URL, footerNavItems, mapsUrl, NEW_CAMPUS_URL, siteConfig, whatsappPrincipal, whatsappUrl } from "@/lib/site";
+import { CAREERS_URL, footerNavItems, isExternalHref, mapsUrl, NEW_CAMPUS_URL, PRIVACY_HREF, siteConfig, whatsappPrincipal, whatsappUrl } from "@/lib/site";
 
 // só entram as redes que têm link em lib/site.ts
 const socialLinks = [
@@ -94,7 +94,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-3 text-sm">
             {footerNavItems.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className={linkClass}>
+                <Link href={item.href} target={isExternalHref(item.href) ? "_blank" : undefined} rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined} className={linkClass}>
                   {item.label}
                 </Link>
               </li>
@@ -157,7 +157,10 @@ export function SiteFooter() {
       <div className="border-t border-white/10 bg-navy-950/60">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-5 text-xs text-blue-100/60 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <p>
-            © {new Date().getFullYear()} {siteConfig.legalName} · CNPJ {siteConfig.cnpj}
+            © {new Date().getFullYear()} {siteConfig.legalName} · CNPJ {siteConfig.cnpj} ·{" "}
+            <Link href={PRIVACY_HREF} className="font-bold text-blue-100/85 underline underline-offset-4 hover:text-gold-300">
+              Política de Privacidade
+            </Link>
           </p>
           <p className="inline-flex items-center gap-1.5">
             <ShieldCheck size={14} className="text-gold" aria-hidden="true" />

@@ -8,6 +8,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { InstagramSection } from "@/components/shared/instagram-section";
 import { LeadershipSection } from "@/components/shared/leadership-section";
 import { StudentsSection } from "@/components/shared/students-section";
+import { TestimonialsSection } from "@/components/shared/testimonials-section";
 import { pillars } from "@/lib/pillars";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { ENROLL_HREF, siteConfig } from "@/lib/site";
@@ -75,6 +76,8 @@ export default function AboutPage() {
         </ul>
         <div className="gold-line" aria-hidden="true" />
       </section>
+
+      <TestimonialsSection />
 
       <VideoSection />
 
